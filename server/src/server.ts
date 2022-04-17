@@ -7,7 +7,8 @@ export default (
     'request',
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
       // do something
-      req.passThrough();
+      res.end('12313');
+      // req.passThrough();
     },
   );
 
