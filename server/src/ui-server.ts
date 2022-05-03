@@ -1,4 +1,4 @@
-import { getAppInstance } from './app';
+import { getAppInstance } from './main';
 
 export default async (
   server: Whistle.PluginServer,
