@@ -1,1 +1,1 @@
-# whistle.easy-modify
+# whistle.modify
