@@ -1,9 +1,12 @@
-export class Rule {
+import { IRule } from './rule.type';
+
+export class Rule implements IRule {
   id: string;
-  url: string;
+  pattern: string;
   enable: boolean;
-  method: string;
-  response: {
-    body: string;
+  replacer: {
+    response: {
+      body: string;
+    };
   };
 }
