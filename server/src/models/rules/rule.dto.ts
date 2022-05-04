@@ -1,9 +1,24 @@
-import { IsDefined, IsBoolean, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsBoolean,
+  IsString,
+  ValidateNested,
+  IsObject,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateRuleDto {
+// why use @Type? see https://github.com/typestack/class-validator/issues/83
+
+export class ResponseDto {
   @IsString()
-  @IsDefined()
-  pattern: string;
+  body: string;
+}
+
+export class ReplacerDto {
+  @ValidateNested()
+  @IsObject()
+  @Type(() => ResponseDto)
+  response: ResponseDto;
 }
 
 export class UpdateRuleDto {
@@ -11,4 +26,12 @@ export class UpdateRuleDto {
   pattern: string;
   @IsBoolean()
   enable: boolean;
+  @ValidateNested()
+  @Type(() => ReplacerDto)
+  replacer: ReplacerDto;
+}
+
+export class CreateRuleDto extends UpdateRuleDto {
+  @IsDefined()
+  pattern: string;
 }

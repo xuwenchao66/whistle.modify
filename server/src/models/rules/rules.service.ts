@@ -12,6 +12,7 @@ export class RulesService {
     rule.id = uuidv4();
     rule.enable = false;
     rule.pattern = createRuleDto.pattern;
+    rule.replacer = createRuleDto.replacer;
 
     rulesDB.create(rule);
 

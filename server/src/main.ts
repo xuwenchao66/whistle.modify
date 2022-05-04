@@ -8,7 +8,15 @@ export const getAppInstance = async () => {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix(API_PREFIX);
-  app.useGlobalPipes(new ValidationPipe({ skipMissingProperties: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      skipMissingProperties: true,
+      // https://github.com/typestack/class-validator/issues/305
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+    }),
+  );
 
   await app.init();
 
