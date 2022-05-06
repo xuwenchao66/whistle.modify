@@ -18,8 +18,10 @@ export const getMatchedReplacer = (req: Whistle.PluginServerRequest) => {
 
   const enable = get(matchedRule, 'enable', false);
   const responseBody = get(matchedRule, 'replacer.response.body');
+  const id = matchedRule?.id;
 
   return {
+    id,
     enable,
     responseBody,
   };
@@ -33,7 +35,7 @@ export default (
   server.on(
     'request',
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
-      const { responseBody, enable } = getMatchedReplacer(req);
+      const { responseBody, enable, id } = getMatchedReplacer(req);
 
       if (enable && responseBody) {
         /**
@@ -45,12 +47,12 @@ export default (
         const client = req.request((svrRes) => {
           // 由于内容长度可能有变，删除长度自动改成 chunked
           delete svrRes.headers['content-length'];
-
+          // 添加此 header 用于标记请求被成功 mock
+          res.setHeader('whistle-modify', id);
+          // 写入服务端返回的 code 以及 headers
           res.writeHead(svrRes.statusCode, svrRes.headers);
-
           // 必须要声明该 data 钩子，才会读取 response 流，读取完才会触发 end 事件
           svrRes.on('data', (data) => {});
-
           svrRes.on('end', () => res.end(responseBody));
         });
 
@@ -65,7 +67,6 @@ export default (
   server.on(
     'upgrade',
     (req: Whistle.PluginServerRequest, socket: Whistle.PluginServerSocket) => {
-      // do something
       req.passThrough();
     },
   );
@@ -74,7 +75,6 @@ export default (
   server.on(
     'connect',
     (req: Whistle.PluginServerRequest, socket: Whistle.PluginServerSocket) => {
-      // do something
       req.passThrough();
     },
   );
