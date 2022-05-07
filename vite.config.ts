@@ -2,13 +2,19 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-const outDir = path.resolve(__dirname, 'dist/ui');
+const outDir = path.join(__dirname, 'dist/ui');
+const root = './ui';
+const sourceDir = './src';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  root: './ui',
+  root: root,
   plugins: [react()],
   build: {
     outDir,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, root, sourceDir),
+    },
   },
 });
