@@ -3,7 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { Module } from '@nestjs/common';
 import { RulesModule } from './models/rules/rules.module';
 
-const staticRootPath = join(__dirname, '../ui');
+const staticRootPath = join(__dirname, '../client');
 
 @Module({
   imports: [

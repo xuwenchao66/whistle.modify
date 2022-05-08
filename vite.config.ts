@@ -2,8 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-const outDir = path.join(__dirname, 'dist/ui');
-const root = './ui';
+const outDir = path.join(__dirname, 'dist/client');
+const root = './client';
 const sourceDir = './src';
 
 export default defineConfig({
