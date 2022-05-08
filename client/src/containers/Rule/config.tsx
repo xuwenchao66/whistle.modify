@@ -4,7 +4,13 @@ import { Rule } from '@server/src/models/rules/rule.type';
 
 const { Link } = Typography;
 
-export const getColumn = (): ColumnType<Rule>[] => [
+export type GetColumnsProps = {
+  onSwitch: (enable: boolean, row: Rule, index: number) => void;
+};
+
+export const getColumns = ({
+  onSwitch,
+}: GetColumnsProps): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
     key: 'pattern',
@@ -24,12 +30,16 @@ export const getColumn = (): ColumnType<Rule>[] => [
     key: 'operation',
     dataIndex: 'operation',
     width: 200,
-    render: (_, row) => {
+    render: (_, row, index) => {
       const { enable } = row;
 
       return (
         <Space size="large">
-          <Switch checked={enable} size="small" />
+          <Switch
+            checked={enable}
+            size="small"
+            onChange={(enable) => onSwitch(enable, row, index)}
+          />
           <Button type="primary" size="small">
             Edit
           </Button>

@@ -4,3 +4,6 @@ import { Rule } from '@server/src/models/rules/rule.type';
 
 export const getRules = async (options?: AxiosRequestConfig) =>
   await request.get<Rule[]>('/rules', options);
+
+export const updateRule = async (id: Rule['id'], data: Partial<Rule>) =>
+  await request.put<Rule>(`rules/${id}`, data);
