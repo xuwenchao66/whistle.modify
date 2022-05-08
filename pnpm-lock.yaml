@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@ant-design/icons': ^4.7.0
   '@nestjs/cli': ^8.0.0
   '@nestjs/common': ^8.0.0
   '@nestjs/core': ^8.0.0
@@ -46,6 +47,7 @@ specifiers:
   vite: ^2.9.2
 
 dependencies:
+  '@ant-design/icons': 4.7.0_react-dom@18.0.0+react@18.0.0
   '@nestjs/common': 8.4.4_5199533202e21c7185c9d97f881e2827
   '@nestjs/core': 8.4.4_b63c269346792a9d57cfab86d23050d2
   '@nestjs/platform-express': 8.4.4_a78378ec5f3cecc3c353ed91b578f3e6
@@ -5446,7 +5448,7 @@ packages:
     dev: false
 
   /react-is/17.0.2:
-    resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/react-is/-/react-is-17.0.2.tgz}
+    resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: true
 
   /react-refresh/0.12.0:

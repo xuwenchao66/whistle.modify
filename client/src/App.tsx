@@ -1,30 +1,34 @@
 import { FC } from 'react';
-import { Layout, PageHeader, Button, List } from 'antd';
-import { LIST_LOCALE, PAGE_TITLE, LAYOUT_STYLE } from '@/constants';
-import { getRules } from '@/api/rule';
+import { Layout, PageHeader, Button } from 'antd';
 import { useAsync } from 'react-use';
-import './App.css';
+import { RuleTable } from '@/containers/Rule/Table';
+import { getRules } from '@/api/rule';
+import { PlusOutlined } from '@ant-design/icons';
+
+const { Content } = Layout;
+
+export const layoutStyle = { background: '#fff' };
 
 export const App: FC = () => {
-  getRules({ data: { id: 123 } });
-  const { value, loading, error } = useAsync(getRules);
-  console.log(value?.data, loading, error);
+  const { value, loading } = useAsync(getRules);
 
   const header = (
     <PageHeader
-      title={PAGE_TITLE}
-      extra={<Button type="primary">Add</Button>}
+      title={'whistle.modify'}
+      extra={
+        <Button type="primary" icon={<PlusOutlined />}>
+          Add
+        </Button>
+      }
     />
   );
 
   return (
-    <Layout style={LAYOUT_STYLE}>
-      <List
-        header={header}
-        dataSource={[]}
-        locale={LIST_LOCALE}
-        // renderItem={(item) => <List.Item>123</List.Item>}
-      />
+    <Layout style={layoutStyle}>
+      {header}
+      <Content className="content">
+        <RuleTable dataSource={value?.data} loading={loading} />
+      </Content>
     </Layout>
   );
 };
