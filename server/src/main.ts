@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { API_PREFIX } from './constants';
+import { API_PREFIX } from './common/config';
 
 // https://stackoverflow.com/questions/54349998/use-nestjs-package-in-nodejs-express-project
 export const getAppInstance = async () => {

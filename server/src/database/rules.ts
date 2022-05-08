@@ -1,13 +1,15 @@
 import db from './db';
 import { Rule } from '../models/rules/rule.entity';
 import { IRule } from '../models/rules/rule.type';
+import { NotFoundException } from '@nestjs/common';
 
 const prefix = '/rules';
 
 export class RulesDB {
   findIndexById(id: string): number {
-    // TD: 如果没有此 index 抛出错误？
-    return db.getIndex(prefix, id);
+    const index = db.getIndex(prefix, id);
+    if (index === -1) throw new NotFoundException('Rule Not Found');
+    return index;
   }
 
   create(rule: Rule) {
