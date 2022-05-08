@@ -1,6 +1,6 @@
-import { IRule } from './rule.type';
+import { Rule } from './rule.type';
 
-export class RuleEntity implements IRule {
+export class RuleEntity implements Rule {
   id: string;
   pattern: string;
   enable: boolean;

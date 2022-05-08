@@ -3,13 +3,13 @@ import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
 import * as isEmpty from 'lodash/isEmpty';
 
 import { DB } from '../common/config';
-import { IRule } from '../models/rules/rule.type';
+import { Rule } from '../models/rules/rule.type';
 
 const rootPrefix = '/';
 
 type Data = {
   version: string;
-  rules: IRule[];
+  rules: Rule[];
 };
 
 const defaultData: Data = {

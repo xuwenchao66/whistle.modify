@@ -17,4 +17,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, root, sourceDir),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8899/plugin.modify',
+        changeOrigin: true,
+      },
+    },
+  },
 });

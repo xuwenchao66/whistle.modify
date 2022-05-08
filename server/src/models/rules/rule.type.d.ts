@@ -1,12 +1,12 @@
-export interface IReplacer {
+export interface Replacer {
   response: {
     body: string;
   };
 }
 
-export interface IRule {
+export interface Rule {
   id: string;
   pattern: string;
   enable: boolean;
-  replacer: IReplacer;
+  replacer: Replacer;
 }
