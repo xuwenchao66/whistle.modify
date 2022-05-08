@@ -7,7 +7,7 @@ import {
   Body,
   Put,
 } from '@nestjs/common';
-import { Rule } from './rule.entity';
+import { RuleEntity } from './rule.entity';
 import { RulesService } from './rules.service';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
 
@@ -31,7 +31,7 @@ export class RulesController {
   }
 
   @Get()
-  findAll(): Promise<Rule[]> {
+  findAll(): Promise<RuleEntity[]> {
     return this.rulesService.findAll();
   }
 

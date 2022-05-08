@@ -1,5 +1,5 @@
 import db from './db';
-import { Rule } from '../models/rules/rule.entity';
+import { RuleEntity } from '../models/rules/rule.entity';
 import { IRule } from '../models/rules/rule.type';
 import { NotFoundException } from '@nestjs/common';
 
@@ -12,7 +12,7 @@ export class RulesDB {
     return index;
   }
 
-  create(rule: Rule) {
+  create(rule: RuleEntity) {
     db.push(`${prefix}[]`, rule);
   }
 
@@ -21,7 +21,7 @@ export class RulesDB {
     db.delete(`${prefix}[${index}]`);
   }
 
-  update(id: string, rule: Partial<Rule>) {
+  update(id: string, rule: Partial<RuleEntity>) {
     const index = this.findIndexById(id);
     db.push(`${prefix}[${index}]`, rule, false);
 
@@ -32,8 +32,8 @@ export class RulesDB {
     return db.getObject<IRule[]>(prefix);
   }
 
-  findOne(id: string): Rule {
+  findOne(id: string): RuleEntity {
     const index = this.findIndexById(id);
-    return db.getObject<Rule>(`${prefix}[${index}]`);
+    return db.getObject<RuleEntity>(`${prefix}[${index}]`);
   }
 }

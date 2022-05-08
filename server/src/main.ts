@@ -2,12 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { API_PREFIX } from './common/config';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 // https://stackoverflow.com/questions/54349998/use-nestjs-package-in-nodejs-express-project
 export const getAppInstance = async () => {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix(API_PREFIX);
+  app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalPipes(
     new ValidationPipe({
       skipMissingProperties: true,

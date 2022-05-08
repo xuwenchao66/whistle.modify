@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Rule } from './rule.entity';
+import { RuleEntity } from './rule.entity';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
 import { rulesDB } from '../../database';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RulesService {
-  async create(createRuleDto: CreateRuleDto): Promise<Rule> {
-    const rule = new Rule();
+  async create(createRuleDto: CreateRuleDto): Promise<RuleEntity> {
+    const rule = new RuleEntity();
 
     rule.id = uuidv4();
     rule.enable = false;
@@ -27,11 +27,11 @@ export class RulesService {
     return rulesDB.update(id, updateRuleDto);
   }
 
-  async findAll(): Promise<Rule[]> {
+  async findAll(): Promise<RuleEntity[]> {
     return rulesDB.findAll();
   }
 
-  async findOne(id: string): Promise<Rule> {
+  async findOne(id: string): Promise<RuleEntity> {
     return rulesDB.findOne(id);
   }
 }
