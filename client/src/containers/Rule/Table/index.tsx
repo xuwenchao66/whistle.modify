@@ -11,10 +11,13 @@ type TableProps = ComponentProps<typeof Table>;
 export interface RuleTableProps extends TableProps {}
 
 export const RuleTable: FC<RuleTableProps> = (props) => {
+  const columns = getColumn() as TableProps['columns'];
+
   return (
     <Table
       key="id"
-      columns={getColumn() as TableProps['columns']}
+      sticky
+      columns={columns}
       locale={locale}
       pagination={false}
       {...props}

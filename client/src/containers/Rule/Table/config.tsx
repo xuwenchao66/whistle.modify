@@ -1,24 +1,28 @@
 import { Switch, Space, Button, Typography } from 'antd';
-import { ColumnsType } from 'antd/es/table';
+import { ColumnType } from 'antd/es/table';
 import { Rule } from '@server/src/models/rules/rule.type';
 
 const { Link } = Typography;
 
-export const getColumn = (): ColumnsType<Rule> => [
+export const getColumn = (): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
-    dataIndex: 'pattern',
     key: 'pattern',
+    dataIndex: 'pattern',
+    ellipsis: true,
     render: (value) => <Link>{value}</Link>,
   },
   {
     title: 'Response Body',
     key: 'response',
+    dataIndex: 'response',
+    ellipsis: true,
     render: (_, row) => row.replacer?.response?.body,
   },
   {
     title: 'Action',
     key: 'operation',
+    dataIndex: 'operation',
     width: 200,
     render: (_, row) => {
       const { enable } = row;

@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { Layout, PageHeader, Button } from 'antd';
-import { useAsync } from 'react-use';
-import { RuleTable } from '@/containers/Rule/Table';
-import { getRules } from '@/api/rule';
+import { useRuleTable } from '@/containers/Rule';
 import { PlusOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -10,7 +8,7 @@ const { Content } = Layout;
 export const layoutStyle = { background: '#fff' };
 
 export const App: FC = () => {
-  const { value, loading } = useAsync(getRules);
+  const { table } = useRuleTable();
 
   const header = (
     <PageHeader
@@ -26,9 +24,7 @@ export const App: FC = () => {
   return (
     <Layout style={layoutStyle}>
       {header}
-      <Content className="content">
-        <RuleTable dataSource={value?.data} loading={loading} />
-      </Content>
+      <Content className="content">{table}</Content>
     </Layout>
   );
 };
