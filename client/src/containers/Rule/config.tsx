@@ -1,53 +1,67 @@
-import { Switch, Space, Button, Typography } from 'antd';
+import { FC, memo } from 'react';
+import { Switch, Space, Button, Typography, Popconfirm } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import { Rule } from '@server/src/models/rules/rule.type';
 
 const { Link } = Typography;
 
-export type GetColumnsProps = {
+export type ActionProps = {
+  row: Rule;
+  index: number;
   onSwitch: (enable: boolean, row: Rule, index: number) => void;
+  onDelete: (row: Rule, index: number) => void;
 };
+
+const Action: FC<ActionProps> = memo(({ row, index, onSwitch, onDelete }) => {
+  const { enable } = row;
+
+  return (
+    <Space size="large">
+      <Switch
+        checked={enable}
+        size="small"
+        onChange={(enable) => onSwitch(enable, row, index)}
+      />
+      <Button type="primary" size="small">
+        Edit
+      </Button>
+      <Popconfirm
+        title="Are you sure to delete this rule?"
+        onConfirm={() => onDelete(row, index)}
+        okText="Yes"
+        cancelText="No"
+        placement="topRight"
+      >
+        <Button type="primary" danger size="small">
+          Delete
+        </Button>
+      </Popconfirm>
+    </Space>
+  );
+});
 
 export const getColumns = ({
   onSwitch,
-}: GetColumnsProps): ColumnType<Rule>[] => [
+  onDelete,
+}: Pick<ActionProps, 'onDelete' | 'onSwitch'>): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
-    key: 'pattern',
     dataIndex: 'pattern',
     ellipsis: true,
     render: (value) => <Link>{value}</Link>,
   },
   {
     title: 'Response Body',
-    key: 'response',
     dataIndex: 'response',
     ellipsis: true,
     render: (_, row) => row.replacer?.response?.body,
   },
   {
     title: 'Action',
-    key: 'operation',
     dataIndex: 'operation',
     width: 200,
-    render: (_, row, index) => {
-      const { enable } = row;
-
-      return (
-        <Space size="large">
-          <Switch
-            checked={enable}
-            size="small"
-            onChange={(enable) => onSwitch(enable, row, index)}
-          />
-          <Button type="primary" size="small">
-            Edit
-          </Button>
-          <Button type="primary" danger size="small">
-            Delete
-          </Button>
-        </Space>
-      );
-    },
+    render: (_, row, index) => (
+      <Action row={row} index={index} onSwitch={onSwitch} onDelete={onDelete} />
+    ),
   },
 ];

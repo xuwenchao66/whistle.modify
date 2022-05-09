@@ -11,7 +11,7 @@ export interface RuleTableProps extends TableProps {}
 
 const RuleTable: FC<RuleTableProps> = (props) => {
   return (
-    <Table key="id" sticky locale={locale} pagination={false} {...props} />
+    <Table rowKey="id" sticky locale={locale} pagination={false} {...props} />
   );
 };
 

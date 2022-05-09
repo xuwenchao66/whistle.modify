@@ -15,7 +15,7 @@ export const App: FC = () => {
       title={'whistle.modify'}
       extra={
         <Button type="primary" icon={<PlusOutlined />}>
-          Add
+          Create
         </Button>
       }
     />

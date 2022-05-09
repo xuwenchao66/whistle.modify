@@ -1,11 +1,12 @@
 import { useMemo, useCallback } from 'react';
 import { useAsyncFn, useMount } from 'react-use';
-import { getRules, updateRule } from '@/api/rule';
+import { message } from 'antd';
+import { deleteRule, getRules, updateRule } from '@/api/rule';
 import { useImmer } from 'use-immer';
 import { Rule } from '@server/src/models/rules/rule.type';
 import { useLockFn } from 'ahooks';
 import RuleTable, { RuleTableProps } from './table';
-import { getColumns, GetColumnsProps } from './config';
+import { getColumns, ActionProps } from './config';
 
 export const useRuleTable = () => {
   const [rules, setRules] = useImmer<Rule[]>([]);
@@ -15,7 +16,7 @@ export const useRuleTable = () => {
     setRules(data);
   });
 
-  const handleSwitch: GetColumnsProps['onSwitch'] = useCallback(
+  const handleSwitch: ActionProps['onSwitch'] = useCallback(
     useLockFn(async (enable, row, index) => {
       try {
         const { data } = await updateRule(row.id, { enable });
@@ -29,9 +30,25 @@ export const useRuleTable = () => {
     [rules],
   );
 
+  const handleDelete: ActionProps['onDelete'] = useCallback(
+    useLockFn(async (row, index) => {
+      try {
+        await deleteRule(row.id);
+        setRules((rules) => {
+          rules.splice(index, 1);
+        });
+        message.success('Successfully deleted');
+      } catch (error) {
+        console.error(error);
+        message.error('Delete failed');
+      }
+    }),
+    [rules],
+  );
+
   const columns = useMemo(
-    () => getColumns({ onSwitch: handleSwitch }),
-    [handleSwitch],
+    () => getColumns({ onSwitch: handleSwitch, onDelete: handleDelete }),
+    [handleSwitch, handleDelete],
   );
 
   useMount(getList);

@@ -7,3 +7,6 @@ export const getRules = async (options?: AxiosRequestConfig) =>
 
 export const updateRule = async (id: Rule['id'], data: Partial<Rule>) =>
   await request.put<Rule>(`rules/${id}`, data);
+
+export const deleteRule = async (id: Rule['id']) =>
+  await request.delete(`rules/${id}`);
