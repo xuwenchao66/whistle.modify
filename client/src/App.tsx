@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Layout, PageHeader, Button } from 'antd';
+import { Layout, PageHeader, Button, Tooltip } from 'antd';
+import { PlusOutlined, FullscreenOutlined } from '@ant-design/icons';
 import { useRuleTable } from '@/containers/Rule';
-import { PlusOutlined } from '@ant-design/icons';
+import { inIframe } from '@/utils';
 
 const { Content } = Layout;
 
@@ -13,11 +14,19 @@ export const App: FC = () => {
   const header = (
     <PageHeader
       title={'whistle.modify'}
-      extra={
+      extra={[
         <Button type="primary" icon={<PlusOutlined />}>
           Create
-        </Button>
-      }
+        </Button>,
+        inIframe() ? (
+          <Tooltip title="Open in a separate tab" placement="bottomLeft">
+            <Button
+              icon={<FullscreenOutlined />}
+              onClick={() => window.open(window.location.href)}
+            />
+          </Tooltip>
+        ) : null,
+      ]}
     />
   );
 
