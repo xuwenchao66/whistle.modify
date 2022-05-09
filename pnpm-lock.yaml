@@ -30,6 +30,7 @@ specifiers:
   immer: ^9.0.12
   jest: ^27.2.5
   lodash: ^4.17.21
+  nanoid: ^3.3.4
   node-json-db: ^1.5.0
   prettier: ^2.3.2
   react: ^18.0.0
@@ -46,7 +47,6 @@ specifiers:
   tsconfig-paths: ^3.10.1
   typescript: ^4.6.3
   use-immer: ^0.7.0
-  uuid: ^8.3.2
   vite: ^2.9.2
 
 dependencies:
@@ -62,6 +62,7 @@ dependencies:
   class-validator: 0.13.2
   immer: 9.0.12
   lodash: 4.17.21
+  nanoid: 3.3.4
   node-json-db: 1.5.0
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
@@ -70,7 +71,6 @@ dependencies:
   rimraf: 3.0.2
   rxjs: 7.5.5
   use-immer: 0.7.0_immer@9.0.12+react@18.0.0
-  uuid: 8.3.2
 
 devDependencies:
   '@nestjs/cli': 8.2.5
@@ -4553,11 +4553,10 @@ packages:
       stylis: 4.1.1
     dev: false
 
-  /nanoid/3.3.2:
-    resolution: {integrity: sha512-CuHBogktKwpm5g2sRgv83jEy2ijFzBwMoYA60orPDR7ynsLijJDqgsi4RDGj3OJpy3Ieb+LYwiRmIOGyytgITA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/nanoid/-/nanoid-3.3.2.tgz}
+  /nanoid/3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/natural-compare/-/natural-compare-1.4.0.tgz}
@@ -4821,7 +4820,7 @@ packages:
     resolution: {integrity: sha512-lg6eITwYe9v6Hr5CncVbK70SoioNQIq81nsaG86ev5hAidQvmOeETBqs7jm43K2F5/Ley3ytDtriImV6TpNiSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/postcss/-/postcss-8.4.12.tgz}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.2
+      nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true

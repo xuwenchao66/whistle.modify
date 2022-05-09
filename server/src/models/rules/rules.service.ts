@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { getUUID } from '../../common/helpers';
 import { RuleEntity } from './rule.entity';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
 import { rulesDB } from '../../database';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RulesService {
   async create(createRuleDto: CreateRuleDto): Promise<RuleEntity> {
     const rule = new RuleEntity();
 
-    rule.id = uuidv4();
+    rule.id = await getUUID();
     rule.enable = false;
     rule.pattern = createRuleDto.pattern;
     rule.replacer = createRuleDto.replacer;
