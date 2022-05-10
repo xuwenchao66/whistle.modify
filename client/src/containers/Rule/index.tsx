@@ -11,7 +11,7 @@ import { getColumns, ActionProps } from './config';
 export const useRuleTable = () => {
   const [rules, setRules] = useImmer<Rule[]>([]);
 
-  const [{ loading }, getList] = useAsyncFn(async () => {
+  const [{ loading }, get] = useAsyncFn(async () => {
     const { data } = await getRules();
     setRules(data);
   });
@@ -51,7 +51,7 @@ export const useRuleTable = () => {
     [handleSwitch, handleDelete],
   );
 
-  useMount(getList);
+  useMount(get);
 
   const table = (
     <RuleTable
@@ -63,6 +63,6 @@ export const useRuleTable = () => {
 
   return {
     table,
-    getList,
+    get,
   };
 };
