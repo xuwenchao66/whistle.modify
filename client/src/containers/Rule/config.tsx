@@ -51,6 +51,11 @@ export const getColumns = ({
     render: (value) => <Link>{value}</Link>,
   },
   {
+    title: 'Description',
+    dataIndex: 'description',
+    ellipsis: true,
+  },
+  {
     title: 'Response Body',
     dataIndex: 'response',
     ellipsis: true,

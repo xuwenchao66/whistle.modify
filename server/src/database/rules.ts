@@ -29,7 +29,8 @@ export class RulesDB {
   }
 
   findAll() {
-    return db.getObject<Rule[]>(prefix).reverse();
+    const rules = db.getObject<Rule[]>(prefix);
+    return rules;
   }
 
   findOne(id: string): RuleEntity {

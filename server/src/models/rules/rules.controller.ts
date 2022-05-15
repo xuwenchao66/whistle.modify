@@ -7,7 +7,6 @@ import {
   Body,
   Put,
 } from '@nestjs/common';
-import { RuleEntity } from './rule.entity';
 import { RulesService } from './rules.service';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
 
@@ -16,27 +15,27 @@ export class RulesController {
   constructor(private readonly rulesService: RulesService) {}
 
   @Post()
-  create(@Body() createRuleDto: CreateRuleDto) {
-    return this.rulesService.create(createRuleDto);
+  async create(@Body() createRuleDto: CreateRuleDto) {
+    return await this.rulesService.create(createRuleDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<void> {
+  async delete(@Param('id') id: string) {
     return this.rulesService.delete(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateRuleDto: UpdateRuleDto) {
-    return this.rulesService.update(id, updateRuleDto);
+  async update(@Param('id') id: string, @Body() updateRuleDto: UpdateRuleDto) {
+    return await this.rulesService.update(id, updateRuleDto);
   }
 
   @Get()
-  findAll(): Promise<RuleEntity[]> {
-    return this.rulesService.findAll();
+  async findAll() {
+    return await this.rulesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): any {
-    return this.rulesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.rulesService.findOne(id);
   }
 }

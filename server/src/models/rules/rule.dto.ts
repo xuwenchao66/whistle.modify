@@ -24,6 +24,8 @@ export class ReplacerDto {
 export class UpdateRuleDto {
   @IsString()
   pattern: string;
+  @IsString()
+  description: string;
   @IsBoolean()
   enable: boolean;
   @ValidateNested()

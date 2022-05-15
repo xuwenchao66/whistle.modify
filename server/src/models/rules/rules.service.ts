@@ -13,6 +13,7 @@ export class RulesService {
     rule.enable = false;
     rule.pattern = createRuleDto.pattern;
     rule.replacer = createRuleDto.replacer;
+    rule.description = createRuleDto.description;
 
     rulesDB.create(rule);
 
@@ -28,7 +29,11 @@ export class RulesService {
   }
 
   async findAll(): Promise<RuleEntity[]> {
-    return rulesDB.findAll();
+    const rules = [...rulesDB.findAll()];
+
+    rules.reverse();
+
+    return rules;
   }
 
   async findOne(id: string): Promise<RuleEntity> {
