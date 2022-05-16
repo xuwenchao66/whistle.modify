@@ -8,7 +8,7 @@ import { useLockFn } from 'ahooks';
 import RuleTable, { RuleTableProps } from './table';
 import { getColumns, ActionProps } from './config';
 
-export const useRuleTable = () => {
+export const useRulesTable = () => {
   const [rules, setRules] = useImmer<Rule[]>([]);
 
   const [{ loading }, get] = useAsyncFn(async () => {
