@@ -10,40 +10,47 @@ export type ActionProps = {
   index: number;
   onSwitch: (enable: boolean, row: Rule, index: number) => void;
   onDelete: (row: Rule, index: number) => void;
+  onEdit: (row: Rule) => void;
 };
 
-const Action: FC<ActionProps> = memo(({ row, index, onSwitch, onDelete }) => {
-  const { enable } = row;
+const Action: FC<ActionProps> = memo(
+  ({ row, index, onSwitch, onDelete, onEdit }) => {
+    const { enable } = row;
 
-  return (
-    <Space size="large">
-      <Switch
-        checked={enable}
-        size="small"
-        onChange={(enable) => onSwitch(enable, row, index)}
-      />
-      <Button type="primary" size="small">
-        Edit
-      </Button>
-      <Popconfirm
-        title="Are you sure to delete this rule?"
-        onConfirm={() => onDelete(row, index)}
-        okText="Yes"
-        cancelText="No"
-        placement="topRight"
-      >
-        <Button type="primary" danger size="small">
-          Delete
+    return (
+      <Space size="large">
+        <Switch
+          checked={enable}
+          size="small"
+          onChange={(enable) => onSwitch(enable, row, index)}
+        />
+        <Button type="primary" size="small" onClick={() => onEdit(row)}>
+          Edit
         </Button>
-      </Popconfirm>
-    </Space>
-  );
-});
+        <Popconfirm
+          title="Are you sure to delete this rule?"
+          onConfirm={() => onDelete(row, index)}
+          okText="Yes"
+          cancelText="No"
+          placement="topRight"
+        >
+          <Button type="primary" danger size="small">
+            Delete
+          </Button>
+        </Popconfirm>
+      </Space>
+    );
+  },
+);
 
 export const getColumns = ({
   onSwitch,
   onDelete,
-}: Pick<ActionProps, 'onDelete' | 'onSwitch'>): ColumnType<Rule>[] => [
+  onEdit,
+}: Pick<
+  ActionProps,
+  'onDelete' | 'onSwitch' | 'onEdit'
+>): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
     dataIndex: 'pattern',
@@ -66,7 +73,13 @@ export const getColumns = ({
     dataIndex: 'operation',
     width: 200,
     render: (_, row, index) => (
-      <Action row={row} index={index} onSwitch={onSwitch} onDelete={onDelete} />
+      <Action
+        row={row}
+        index={index}
+        onSwitch={onSwitch}
+        onDelete={onDelete}
+        onEdit={onEdit}
+      />
     ),
   },
 ];

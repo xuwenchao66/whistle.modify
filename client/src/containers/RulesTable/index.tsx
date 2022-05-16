@@ -8,7 +8,11 @@ import { useLockFn } from 'ahooks';
 import RuleTable, { RuleTableProps } from './table';
 import { getColumns, ActionProps } from './config';
 
-export const useRulesTable = () => {
+export const useRulesTable = ({
+  onEdit,
+}: {
+  onEdit: ActionProps['onEdit'];
+}) => {
   const [rules, setRules] = useImmer<Rule[]>([]);
 
   const [{ loading }, get] = useAsyncFn(async () => {
@@ -47,7 +51,8 @@ export const useRulesTable = () => {
   );
 
   const columns = useMemo(
-    () => getColumns({ onSwitch: handleSwitch, onDelete: handleDelete }),
+    () =>
+      getColumns({ onSwitch: handleSwitch, onDelete: handleDelete, onEdit }),
     [handleSwitch, handleDelete],
   );
 

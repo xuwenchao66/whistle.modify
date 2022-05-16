@@ -3,9 +3,18 @@ import { PageHeader, Button, Tooltip } from 'antd';
 import { PlusOutlined, FullscreenOutlined } from '@ant-design/icons';
 import { inIframe } from '@/utils';
 
-const Header: FC = memo(() => {
+export interface HeaderProps {
+  onCreate: () => void;
+}
+
+const Header: FC<HeaderProps> = memo(({ onCreate }) => {
   const extra = [
-    <Button key="create" type="primary" icon={<PlusOutlined />}>
+    <Button
+      key="create"
+      type="primary"
+      icon={<PlusOutlined />}
+      onClick={() => onCreate()}
+    >
       Create
     </Button>,
     inIframe() ? (
