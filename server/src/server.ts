@@ -1,5 +1,6 @@
 import { rulesDB } from './database';
 import * as get from 'lodash/get';
+import * as isUndefined from 'lodash/isUndefined';
 
 // TD: 加上一定的缓存逻辑
 export const getAllRules = () => {
@@ -37,7 +38,7 @@ export default (
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
       const { responseBody, enable, id } = getMatchedReplacer(req);
 
-      if (enable && responseBody) {
+      if (enable && !isUndefined(responseBody)) {
         /**
          * 如果没删此头部，浏览器会根据 response 的 'accept-encoding' 进行解码，
          * 所以也需要对修改的响应体进行编码，这样浏览器才能正确解析。

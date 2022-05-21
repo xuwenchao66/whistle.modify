@@ -7,6 +7,7 @@ export const formStaticProps = {
 };
 
 export const modalStaticProps = {
+  destroyOnClose: true,
   maskClosable: false,
   width: '700px',
   centered: true,
