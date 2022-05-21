@@ -9,6 +9,7 @@ export const formStaticProps = {
 export const modalStaticProps = {
   maskClosable: false,
   width: '700px',
+  centered: true,
   bodyStyle: { paddingBottom: 0 },
 };
 

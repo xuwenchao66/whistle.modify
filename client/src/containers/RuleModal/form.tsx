@@ -3,15 +3,13 @@ import JSONEditor from '@/components/JSONEditor';
 import { Form, Input } from 'antd';
 import { formStaticProps, formRules } from './config';
 
-export interface RuleForm {
-  form: ComponentProps<typeof Form>['form'];
-}
+export interface RuleForm extends ComponentProps<typeof Form> {}
 
 const responseBodyName = ['replacer', 'response', 'body'];
 
-export const RuleForm: FC<RuleForm> = ({ form }) => {
+export const RuleForm: FC<RuleForm> = (props) => {
   return (
-    <Form {...formStaticProps} form={form}>
+    <Form {...formStaticProps} {...props}>
       <Form.Item label="Pattern" name="pattern" rules={formRules.pattern}>
         <Input />
       </Form.Item>

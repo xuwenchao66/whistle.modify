@@ -19,7 +19,3 @@ code {
   height: calc(100vh - 72px);
   overflow-y: auto;
 }
-
-td.jsoneditor-tree {
-  vertical-align: middle !important;
-}
