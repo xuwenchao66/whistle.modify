@@ -13,6 +13,10 @@ const defaultOptions: JSONEditorOptions = {
   enableTransform: false,
 };
 
+const containerStyle = {
+  height: '55vh',
+};
+
 const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
   const containerRef = useRef(null);
   const editorRef = useRef<JSONEditor | null>(null);
@@ -35,7 +39,7 @@ const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
     editorRef?.current?.updateText(value || '');
   }, [value]);
 
-  return <div ref={containerRef} />;
+  return <div style={containerStyle} ref={containerRef} />;
 };
 
 export default memo(CustomJSONEditor);
