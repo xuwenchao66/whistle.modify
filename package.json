@@ -1,10 +1,11 @@
 {
   "name": "whistle.modify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "UNLICENSED",
   "main": "./dist/server/index.js",
   "files": [
-    "dist/*"
+    "dist/*",
+    "rules.txt"
   ],
   "scripts": {
     "commit": "git-cz",
