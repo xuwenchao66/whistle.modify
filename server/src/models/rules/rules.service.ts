@@ -10,7 +10,7 @@ export class RulesService {
     const rule = new RuleEntity();
 
     rule.id = await getUUID();
-    rule.enable = false;
+    rule.enable = true;
     rule.pattern = createRuleDto.pattern;
     rule.replacer = createRuleDto.replacer;
     rule.description = createRuleDto.description;

@@ -18,7 +18,10 @@ export const RuleModal: FC<RuleModalProps> = memo(
     const ruleContext = useContext(RuleContext);
     const { visible } = modalProps;
     const isCreate = !rule;
-    const modalTitle = isCreate ? 'Create rule' : 'Update rule';
+    const actionText = isCreate ? 'Create' : 'Edit';
+    const modalTitle = `${actionText} rule`;
+    const successMessage = `${actionText} successfully`;
+    const errorMessage = `${actionText} failed`;
 
     useEffect(() => {
       if (visible) {
@@ -28,35 +31,32 @@ export const RuleModal: FC<RuleModalProps> = memo(
       }
     }, [rule, form, visible]);
 
-    const [{ loading: updating }, update] = useAsyncFn(async (id, newRule) => {
-      try {
-        const { data } = await updateRule(id, newRule);
-        message.success('update successfully');
-        ruleContext.updateRule(data);
-        onSuccess();
-      } catch (error) {
-        message.error('update failed');
-      }
-    });
-
-    const [{ loading: creating }, create] = useAsyncFn(async (newRule) => {
-      try {
-        const { data } = await createRule(newRule);
-        message.success('create successfully');
-        ruleContext.setRules((rules) => {
-          rules.unshift(data);
-        });
-        onSuccess();
-      } catch (error) {
-        message.error('create failed');
-      }
-    });
+    const [{ loading }, fetch] = useAsyncFn(
+      async (id, rule) => {
+        try {
+          if (isCreate) {
+            const { data } = await createRule(rule);
+            ruleContext.setRules((rules) => {
+              rules.unshift(data);
+            });
+          } else {
+            const { data } = await updateRule(id, rule);
+            ruleContext.updateRule(data);
+          }
+          message.success(successMessage);
+          onSuccess();
+        } catch (error) {
+          message.error(errorMessage);
+        }
+      },
+      [isCreate],
+    );
 
     const handleOk = async () => {
       form
         .validateFields()
         .then(async (fields) => {
-          isCreate ? create(fields) : update(rule.id, fields);
+          fetch(rule?.id, fields);
         })
         .catch((e) => {
           console.error(e);
@@ -68,7 +68,8 @@ export const RuleModal: FC<RuleModalProps> = memo(
         {...modalStaticProps}
         {...modalProps}
         title={modalTitle}
-        confirmLoading={updating || creating}
+        confirmLoading={loading}
+        okText={actionText}
         onOk={handleOk}
       >
         <RuleForm form={form} />

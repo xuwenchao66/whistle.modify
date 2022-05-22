@@ -8,8 +8,8 @@ const { Link } = Typography;
 export type ActionProps = {
   row: Rule;
   index: number;
-  onSwitch: (enable: boolean, row: Rule, index: number) => void;
-  onDelete: (row: Rule, index: number) => void;
+  onSwitch: (enable: boolean, row: Rule) => void;
+  onDelete: (row: Rule) => void;
   onEdit: (row: Rule) => void;
 };
 
@@ -22,14 +22,14 @@ const Action: FC<ActionProps> = memo(
         <Switch
           checked={enable}
           size="small"
-          onChange={(enable) => onSwitch(enable, row, index)}
+          onChange={(enable) => onSwitch(enable, row)}
         />
         <Button type="primary" size="small" onClick={() => onEdit(row)}>
           Edit
         </Button>
         <Popconfirm
           title="Are you sure to delete this rule?"
-          onConfirm={() => onDelete(row, index)}
+          onConfirm={() => onDelete(row)}
           okText="Yes"
           cancelText="No"
           placement="topRight"

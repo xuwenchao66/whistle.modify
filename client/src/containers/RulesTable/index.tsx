@@ -34,9 +34,9 @@ export const useRulesTable = ({
     try {
       await deleteRule(row.id);
       ruleContext.deleteRule(row);
-      message.success('delete successfully');
+      message.success('Delete successfully');
     } catch (error) {
-      message.error('delete failed');
+      message.error('Delete failed');
     }
   });
 
