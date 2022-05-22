@@ -3,18 +3,17 @@ import { Modal, Form, message } from 'antd';
 import { Rule } from '@server/src/models/rules/rule.type';
 import { RuleContext } from '@/context';
 import { useAsyncFn } from 'react-use';
-import { updateRule } from '@/api/rule';
+import { updateRule, createRule } from '@/api/rule';
 import { modalStaticProps } from './config';
 import { RuleForm } from './form';
 
 export interface RuleModalProps extends ComponentProps<typeof Modal> {
   rule?: Rule;
-  onUpdateSuccess: (rule: Rule) => void;
-  onCreateSuccess?: (rule: Rule) => void;
+  onSuccess: () => void;
 }
 
 export const RuleModal: FC<RuleModalProps> = memo(
-  ({ rule, onUpdateSuccess, ...modalProps }) => {
+  ({ rule, onSuccess, ...modalProps }) => {
     const [form] = Form.useForm();
     const ruleContext = useContext(RuleContext);
     const { visible } = modalProps;
@@ -22,9 +21,6 @@ export const RuleModal: FC<RuleModalProps> = memo(
     const modalTitle = isCreate ? 'Create rule' : 'Update rule';
 
     useEffect(() => {
-      // https://stackoverflow.com/questions/61056421/warning-instance-created-by-useform-is-not-connect-to-any-form-element
-      if (!form.__INTERNAL__.name) return;
-
       if (visible) {
         rule && form.setFieldsValue(rule);
       } else {
@@ -37,9 +33,22 @@ export const RuleModal: FC<RuleModalProps> = memo(
         const { data } = await updateRule(id, newRule);
         message.success('update successfully');
         ruleContext.updateRule(data);
-        onUpdateSuccess(data);
+        onSuccess();
       } catch (error) {
         message.error('update failed');
+      }
+    });
+
+    const [{ loading: creating }, create] = useAsyncFn(async (newRule) => {
+      try {
+        const { data } = await createRule(newRule);
+        message.success('create successfully');
+        ruleContext.setRules((rules) => {
+          rules.unshift(data);
+        });
+        onSuccess();
+      } catch (error) {
+        message.error('create failed');
       }
     });
 
@@ -47,9 +56,7 @@ export const RuleModal: FC<RuleModalProps> = memo(
       form
         .validateFields()
         .then(async (fields) => {
-          if (!isCreate) {
-            update(rule.id, fields);
-          }
+          isCreate ? create(fields) : update(rule.id, fields);
         })
         .catch((e) => {
           console.error(e);
@@ -61,10 +68,10 @@ export const RuleModal: FC<RuleModalProps> = memo(
         {...modalStaticProps}
         {...modalProps}
         title={modalTitle}
-        confirmLoading={updating}
+        confirmLoading={updating || creating}
         onOk={handleOk}
       >
-        <RuleForm name="rule" form={form} />
+        <RuleForm form={form} />
       </Modal>
     );
   },

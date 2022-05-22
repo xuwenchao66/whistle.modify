@@ -1,24 +1,24 @@
 import { rulesDB } from './database';
 import * as get from 'lodash/get';
-import * as isUndefined from 'lodash/isUndefined';
 
 // TD: 加上一定的缓存逻辑
 export const getAllRules = () => {
   return rulesDB.findAll();
 };
 
+export const checkIsMatch = (pattern: string, url: string) => {
+  if (new RegExp(pattern).test(url)) return true;
+  if (url.indexOf(pattern) !== -1) return true;
+  return false;
+};
+
 export const getMatchedReplacer = (req: Whistle.PluginServerRequest) => {
   const { originalReq } = req;
   const { fullUrl } = originalReq;
   const rules = getAllRules();
-
-  const matchedRule = rules.find((rule) => {
-    const regex = new RegExp(rule.pattern);
-    return regex.test(fullUrl);
-  });
-
+  const matchedRule = rules.find((rule) => checkIsMatch(rule.pattern, fullUrl));
   const enable = get(matchedRule, 'enable', false);
-  const responseBody = get(matchedRule, 'replacer.response.body');
+  const responseBody = get(matchedRule, 'replacer.response.body', '');
   const id = matchedRule?.id;
 
   return {
@@ -37,8 +37,7 @@ export default (
     'request',
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
       const { responseBody, enable, id } = getMatchedReplacer(req);
-
-      if (enable && !isUndefined(responseBody)) {
+      if (enable) {
         /**
          * 如果没删此头部，浏览器会根据 response 的 'accept-encoding' 进行解码，
          * 所以也需要对修改的响应体进行编码，这样浏览器才能正确解析。

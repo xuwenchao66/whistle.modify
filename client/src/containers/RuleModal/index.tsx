@@ -21,7 +21,7 @@ export const useRuleModal = () => {
   const modal = (
     <RuleModal
       rule={rule}
-      onUpdateSuccess={close}
+      onSuccess={close}
       visible={visible}
       onCancel={close}
     />
