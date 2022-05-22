@@ -1,8 +1,11 @@
 {
   "name": "whistle.modify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "UNLICENSED",
   "main": "./dist/server/index.js",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "commit": "git-cz",
     "prebuild": "rimraf dist",
