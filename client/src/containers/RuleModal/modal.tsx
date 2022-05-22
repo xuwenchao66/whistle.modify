@@ -1,4 +1,4 @@
-import { FC, ComponentProps, memo, useEffect, useContext } from 'react';
+import { FC, ComponentProps, memo, useEffect, useContext, useRef } from 'react';
 import { Modal, Form, message } from 'antd';
 import { Rule } from '@server/src/models/rules/rule.type';
 import { RuleContext } from '@/context';
@@ -22,8 +22,11 @@ export const RuleModal: FC<RuleModalProps> = memo(
     const modalTitle = `${actionText} rule`;
     const successMessage = `${actionText} successfully`;
     const errorMessage = `${actionText} failed`;
+    // why use the ref for form? https://github.com/ant-design/ant-design/issues/21543
+    const formRef = useRef(null);
 
     useEffect(() => {
+      if (!formRef.current) return;
       if (visible) {
         rule && form.setFieldsValue(rule);
       } else {
@@ -72,7 +75,7 @@ export const RuleModal: FC<RuleModalProps> = memo(
         okText={actionText}
         onOk={handleOk}
       >
-        <RuleForm form={form} />
+        <RuleForm form={form} ref={formRef} />
       </Modal>
     );
   },

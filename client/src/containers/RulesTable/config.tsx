@@ -7,41 +7,38 @@ const { Link } = Typography;
 
 export type ActionProps = {
   row: Rule;
-  index: number;
   onSwitch: (enable: boolean, row: Rule) => void;
   onDelete: (row: Rule) => void;
   onEdit: (row: Rule) => void;
 };
 
-const Action: FC<ActionProps> = memo(
-  ({ row, index, onSwitch, onDelete, onEdit }) => {
-    const { enable } = row;
+const Action: FC<ActionProps> = memo(({ row, onSwitch, onDelete, onEdit }) => {
+  const { enable } = row;
 
-    return (
-      <Space size="large">
-        <Switch
-          checked={enable}
-          size="small"
-          onChange={(enable) => onSwitch(enable, row)}
-        />
-        <Button type="primary" size="small" onClick={() => onEdit(row)}>
-          Edit
+  return (
+    <Space size="large">
+      <Switch
+        checked={enable}
+        size="small"
+        onChange={(enable) => onSwitch(enable, row)}
+      />
+      <Button type="primary" size="small" onClick={() => onEdit(row)}>
+        Edit
+      </Button>
+      <Popconfirm
+        title="Are you sure to delete this rule?"
+        onConfirm={() => onDelete(row)}
+        okText="Yes"
+        cancelText="No"
+        placement="topRight"
+      >
+        <Button type="primary" danger size="small">
+          Delete
         </Button>
-        <Popconfirm
-          title="Are you sure to delete this rule?"
-          onConfirm={() => onDelete(row)}
-          okText="Yes"
-          cancelText="No"
-          placement="topRight"
-        >
-          <Button type="primary" danger size="small">
-            Delete
-          </Button>
-        </Popconfirm>
-      </Space>
-    );
-  },
-);
+      </Popconfirm>
+    </Space>
+  );
+});
 
 export const getColumns = ({
   onSwitch,
@@ -72,10 +69,9 @@ export const getColumns = ({
     title: 'Action',
     dataIndex: 'operation',
     width: 200,
-    render: (_, row, index) => (
+    render: (_, row) => (
       <Action
         row={row}
-        index={index}
         onSwitch={onSwitch}
         onDelete={onDelete}
         onEdit={onEdit}

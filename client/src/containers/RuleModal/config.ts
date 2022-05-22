@@ -7,8 +7,6 @@ export const formStaticProps = {
 };
 
 export const modalStaticProps = {
-  forceRender: true, // https://github.com/ant-design/ant-design/issues/21543
-  destroyOnClose: true,
   maskClosable: false,
   width: '700px',
   centered: true,

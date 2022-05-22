@@ -5,9 +5,11 @@ import path from 'path';
 const outDir = path.join(__dirname, 'dist/client');
 const root = './client';
 const sourceDir = './src';
+const base = '/plugin.modify/';
 
 export default defineConfig({
-  root: root,
+  root,
+  base,
   plugins: [react()],
   build: {
     outDir,
@@ -20,7 +22,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8899/plugin.modify',
+        target: `http://127.0.0.1:8899${base}`,
         changeOrigin: true,
       },
     },

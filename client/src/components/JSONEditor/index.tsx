@@ -14,7 +14,7 @@ const defaultOptions: JSONEditorOptions = {
 };
 
 const containerStyle = {
-  height: '55vh',
+  height: '50vh',
 };
 
 const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
