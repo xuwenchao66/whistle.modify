@@ -9,44 +9,46 @@ export type ActionProps = {
   row: Rule;
   onSwitch: (enable: boolean, row: Rule) => void;
   onDelete: (row: Rule) => void;
-  onEdit: (row: Rule) => void;
+  onUpdate: (row: Rule) => void;
 };
 
-const Action: FC<ActionProps> = memo(({ row, onSwitch, onDelete, onEdit }) => {
-  const { enable } = row;
+const Action: FC<ActionProps> = memo(
+  ({ row, onSwitch, onDelete, onUpdate }) => {
+    const { enable } = row;
 
-  return (
-    <Space size="large">
-      <Switch
-        checked={enable}
-        size="small"
-        onChange={(enable) => onSwitch(enable, row)}
-      />
-      <Button type="primary" size="small" onClick={() => onEdit(row)}>
-        Edit
-      </Button>
-      <Popconfirm
-        title="Are you sure to delete this rule?"
-        onConfirm={() => onDelete(row)}
-        okText="Yes"
-        cancelText="No"
-        placement="topRight"
-      >
-        <Button type="primary" danger size="small">
-          Delete
+    return (
+      <Space size="large">
+        <Switch
+          checked={enable}
+          size="small"
+          onChange={(enable) => onSwitch(enable, row)}
+        />
+        <Button type="primary" size="small" onClick={() => onUpdate(row)}>
+          Update
         </Button>
-      </Popconfirm>
-    </Space>
-  );
-});
+        <Popconfirm
+          title="Are you sure to delete this rule?"
+          onConfirm={() => onDelete(row)}
+          okText="Yes"
+          cancelText="No"
+          placement="topRight"
+        >
+          <Button type="primary" danger size="small">
+            Delete
+          </Button>
+        </Popconfirm>
+      </Space>
+    );
+  },
+);
 
 export const getColumns = ({
   onSwitch,
   onDelete,
-  onEdit,
+  onUpdate,
 }: Pick<
   ActionProps,
-  'onDelete' | 'onSwitch' | 'onEdit'
+  'onDelete' | 'onSwitch' | 'onUpdate'
 >): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
@@ -74,7 +76,7 @@ export const getColumns = ({
         row={row}
         onSwitch={onSwitch}
         onDelete={onDelete}
-        onEdit={onEdit}
+        onUpdate={onUpdate}
       />
     ),
   },

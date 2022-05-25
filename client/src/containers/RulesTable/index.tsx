@@ -8,9 +8,9 @@ import RuleTable, { RuleTableProps } from './table';
 import { getColumns, ActionProps } from './config';
 
 export const useRulesTable = ({
-  onEdit,
+  onUpdate,
 }: {
-  onEdit: ActionProps['onEdit'];
+  onUpdate: ActionProps['onUpdate'];
 }) => {
   const ruleContext = useContext(RuleContext);
 
@@ -43,7 +43,7 @@ export const useRulesTable = ({
   const columns = getColumns({
     onSwitch: handleSwitch,
     onDelete: handleDelete,
-    onEdit,
+    onUpdate,
   });
 
   useMount(get);

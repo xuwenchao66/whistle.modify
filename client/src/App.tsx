@@ -13,7 +13,7 @@ export const layoutStyle = { background: '#fff' };
 
 export const Main = () => {
   const { modal, open } = useRuleModal();
-  const { table } = useRulesTable({ onEdit: (rule) => open(rule) });
+  const { table } = useRulesTable({ onUpdate: (rule) => open(rule) });
 
   return (
     <>
