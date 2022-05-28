@@ -1,11 +1,21 @@
-import { FC, ComponentProps, memo, useEffect, useContext, useRef } from 'react';
+import {
+  FC,
+  ComponentProps,
+  memo,
+  useEffect,
+  useContext,
+  useRef,
+  lazy,
+  Suspense,
+} from 'react';
 import { Modal, Form, message } from 'antd';
 import { Rule } from '@server/src/models/rules/rule.type';
 import { RuleContext } from '@/context';
 import { useAsyncFn } from 'react-use';
 import { updateRule, createRule } from '@/api/rule';
 import { modalStaticProps } from './config';
-import { RuleForm } from './form';
+
+const RuleForm = lazy(() => import('./form'));
 
 export interface RuleModalProps extends ComponentProps<typeof Modal> {
   rule?: Rule;
@@ -75,7 +85,9 @@ export const RuleModal: FC<RuleModalProps> = memo(
         okText={actionText}
         onOk={handleOk}
       >
-        <RuleForm form={form} ref={formRef} />
+        <Suspense>
+          <RuleForm form={form} ref={formRef} />
+        </Suspense>
       </Modal>
     );
   },
