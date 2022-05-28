@@ -13,11 +13,11 @@ export const layoutStyle = { background: '#fff' };
 
 export const Main = () => {
   const { modal, open } = useRuleModal();
-  const { table } = useRulesTable({ onUpdate: (rule) => open(rule) });
+  const { table, get } = useRulesTable({ onUpdate: (rule) => open(rule) });
 
   return (
     <>
-      <Header onCreate={open} />
+      <Header onCreate={open} onReload={get} />
       <Content className="content">{table}</Content>
       {modal}
     </>
