@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { getUUID } from '../../common/helpers';
 import { RuleEntity } from './rule.entity';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
-import { rulesDB } from '../../database';
+import ruleDB from '../../database/rule';
 
 @Injectable()
-export class RulesService {
+export class RuleService {
   async create(createRuleDto: CreateRuleDto): Promise<RuleEntity> {
     const rule = new RuleEntity();
 
@@ -15,21 +15,21 @@ export class RulesService {
     rule.replacer = createRuleDto.replacer;
     rule.description = createRuleDto.description;
 
-    rulesDB.create(rule);
+    ruleDB.create(rule);
 
     return rule;
   }
 
   async delete(id: string) {
-    return rulesDB.delete(id);
+    return ruleDB.delete(id);
   }
 
   async update(id: string, updateRuleDto: UpdateRuleDto) {
-    return rulesDB.update(id, updateRuleDto);
+    return ruleDB.update(id, updateRuleDto);
   }
 
   async findAll(): Promise<RuleEntity[]> {
-    const rules = [...rulesDB.findAll()];
+    const rules = [...ruleDB.findAll()];
 
     rules.reverse();
 
@@ -37,6 +37,6 @@ export class RulesService {
   }
 
   async findOne(id: string): Promise<RuleEntity> {
-    return rulesDB.findOne(id);
+    return ruleDB.findOne(id);
   }
 }

@@ -1,9 +1,8 @@
-import { rulesDB } from './database';
+import ruleDB from './database/rule';
 import * as get from 'lodash/get';
 
-// TD: 加上一定的缓存逻辑
 export const getAllRules = () => {
-  return rulesDB.findAll();
+  return ruleDB.findAll();
 };
 
 export const checkIsMatch = (pattern: string, url: string) => {

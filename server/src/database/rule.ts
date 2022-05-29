@@ -5,7 +5,7 @@ import { Rule } from '../models/rule/rule.type';
 
 const prefix = '/rules';
 
-export class RulesDB {
+export class RuleDB {
   findIndexById(id: string): number {
     const index = db.getIndex(prefix, id);
     if (index === -1) throw new NotFoundException('Rule Not Found');
@@ -38,3 +38,5 @@ export class RulesDB {
     return db.getObject<RuleEntity>(`${prefix}[${index}]`);
   }
 }
+
+export default new RuleDB();

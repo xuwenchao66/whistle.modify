@@ -42,3 +42,5 @@ export class GroupDB {
     return db.getObject<GroupEntity>(`${prefix}[${index}]`);
   }
 }
+
+export default new GroupDB();

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { getUUID } from '../../common/helpers';
 import { GroupEntity } from './group.entity';
 import { GroupDto } from './group.dto';
-import { groupDB } from '../../database';
+import groupDB from '../../database/group';
 
 @Injectable()
 export class GroupService {
