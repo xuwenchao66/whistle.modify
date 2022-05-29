@@ -23,6 +23,8 @@ export class ReplacerDto {
 
 export class UpdateRuleDto {
   @IsString()
+  groupId: string;
+  @IsString()
   pattern: string;
   @IsString()
   description: string;

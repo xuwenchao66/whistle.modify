@@ -1,7 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import db from './db';
 import { RuleEntity } from '../models/rule/rule.entity';
-import { Rule } from '../models/rule/rule.type';
 
 const prefix = '/rules';
 
@@ -29,7 +28,7 @@ export class RuleDB {
   }
 
   findAll() {
-    const rules = db.getObject<Rule[]>(prefix);
+    const rules = db.getObject<RuleEntity[]>(prefix);
     return rules;
   }
 

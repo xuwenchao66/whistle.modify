@@ -1,7 +1,6 @@
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import db from './db';
 import { GroupEntity } from '../models/group/group.entity';
-import { Group } from '../models/group/group.type';
 import { DEFAULT_GROUP_ID } from '../common/constants';
 
 const prefix = '/groups';
@@ -33,7 +32,7 @@ export class GroupDB {
   }
 
   findAll() {
-    const groups = db.getObject<Group[]>(prefix);
+    const groups = db.getObject<GroupEntity[]>(prefix);
     return groups;
   }
 
