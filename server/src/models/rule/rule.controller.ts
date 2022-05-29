@@ -7,7 +7,7 @@ import {
   Body,
   Put,
 } from '@nestjs/common';
-import { RulesService } from './rules.service';
+import { RulesService } from './rule.service';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
 
 @Controller('rules')

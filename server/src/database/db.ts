@@ -3,7 +3,7 @@ import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
 import * as isEmpty from 'lodash/isEmpty';
 
 import { DB } from '../common/config';
-import { Rule } from '../models/rules/rule.type';
+import { Rule } from '../models/rule/rule.type';
 
 const rootPrefix = '/';
 

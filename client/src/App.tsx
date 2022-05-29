@@ -5,7 +5,7 @@ import { useRulesTable } from '@/containers/RulesTable';
 import { useRuleModal } from '@/containers/RuleModal';
 import { RuleContext, RuleContextProps } from '@/context';
 import { useImmer } from 'use-immer';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 
 const { Content } = Layout;
 

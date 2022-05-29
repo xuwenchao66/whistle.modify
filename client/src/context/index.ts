@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { Updater } from 'use-immer';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 
 export interface RuleContextProps {
   rules: Rule[];

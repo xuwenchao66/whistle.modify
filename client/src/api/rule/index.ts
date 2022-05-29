@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 import { AxiosRequestConfig } from 'axios';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 
 export const createRule = async (data: Partial<Rule>) =>
   await request.post<Rule>(`rules`, data);

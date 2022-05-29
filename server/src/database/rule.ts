@@ -1,6 +1,6 @@
 import db from './db';
-import { RuleEntity } from '../models/rules/rule.entity';
-import { Rule } from '../models/rules/rule.type';
+import { RuleEntity } from '../models/rule/rule.entity';
+import { Rule } from '../models/rule/rule.type';
 import { NotFoundException } from '@nestjs/common';
 
 const prefix = '/rules';

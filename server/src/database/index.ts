@@ -1,3 +1,3 @@
-import { RulesDB } from './rules';
+import { RulesDB } from './rule';
 
 export const rulesDB = new RulesDB();

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { RuleModal } from './modal';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 
 export const useRuleModal = () => {
   const [visible, setVisible] = useState(false);

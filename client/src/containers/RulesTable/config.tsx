@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
 import { Switch, Space, Button, Typography, Popconfirm } from 'antd';
 import { ColumnType } from 'antd/es/table';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 
 const { Link } = Typography;
 

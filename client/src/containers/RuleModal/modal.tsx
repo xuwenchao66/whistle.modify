@@ -9,7 +9,7 @@ import {
   Suspense,
 } from 'react';
 import { Modal, Form, message } from 'antd';
-import { Rule } from '@server/src/models/rules/rule.type';
+import { Rule } from '@server/src/models/rule/rule.type';
 import { RuleContext } from '@/context';
 import { useAsyncFn } from 'react-use';
 import { updateRule, createRule } from '@/api/rule';
