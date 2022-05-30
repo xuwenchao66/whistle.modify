@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   Put,
+  Query,
 } from '@nestjs/common';
 import { RuleService } from './rule.service';
 import { CreateRuleDto, UpdateRuleDto } from './rule.dto';
@@ -30,8 +31,8 @@ export class RuleController {
   }
 
   @Get()
-  async findAll() {
-    return await this.ruleService.findAll();
+  async findAll(@Query('groupId') groupId: string) {
+    return await this.ruleService.findAll({ groupId });
   }
 
   @Get(':id')
