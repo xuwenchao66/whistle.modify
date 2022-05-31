@@ -43,14 +43,8 @@ export class RuleService {
     return ruleDB.update(id, updateRuleDto);
   }
 
-  async findAll(query: Pick<RuleEntity, 'groupId'>): Promise<RuleEntity[]> {
-    let rules = [...ruleDB.findAll()];
-
-    if (query.groupId) {
-      rules = rules.filter((rule) => rule.groupId === query.groupId);
-    }
-
-    rules.reverse();
+  async findAll(query: Partial<RuleEntity>): Promise<RuleEntity[]> {
+    const rules = [...ruleDB.findAll(query)];
 
     return rules;
   }

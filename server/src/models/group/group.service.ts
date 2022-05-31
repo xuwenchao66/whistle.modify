@@ -3,6 +3,7 @@ import { getUUID } from '../../common/helpers';
 import { GroupEntity } from './group.entity';
 import { GroupDto } from './group.dto';
 import groupDB from '../../database/group';
+import ruleDB from '../../database/rule';
 
 @Injectable()
 export class GroupService {
@@ -18,7 +19,10 @@ export class GroupService {
   }
 
   async delete(id: string) {
-    return groupDB.delete(id);
+    groupDB.delete(id);
+    // 删除该 group 下的所有 rule
+    const rules = ruleDB.findAll({ groupId: id });
+    rules.forEach((rule) => ruleDB.delete(rule.id));
   }
 
   async update(id: string, groupDto: GroupDto) {
@@ -26,11 +30,11 @@ export class GroupService {
   }
 
   async findAll(): Promise<GroupEntity[]> {
-    const rules = [...groupDB.findAll()];
+    const groups = [...groupDB.findAll()];
 
-    rules.reverse();
+    groups.reverse();
 
-    return rules;
+    return groups;
   }
 
   async findOne(id: string): Promise<GroupEntity> {

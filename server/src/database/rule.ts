@@ -1,5 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import db from './db';
+import * as isEmpty from 'lodash/isEmpty';
+import * as omitBy from 'lodash/omitBy';
+import * as isUndefined from 'lodash/isUndefined';
 import { RuleEntity } from '../models/rule/rule.entity';
 
 const prefix = '/rules';
@@ -27,8 +30,18 @@ export class RuleDB {
     return this.findOne(id);
   }
 
-  findAll() {
-    const rules = db.getObject<RuleEntity[]>(prefix);
+  findAll(query?: Partial<RuleEntity>) {
+    const validQuery = omitBy(query, isUndefined);
+
+    let rules = db.getObject<RuleEntity[]>(prefix);
+
+    if (!isEmpty(validQuery)) {
+      rules = rules.filter((rule) => {
+        const queryKeys = Object.keys(validQuery);
+        return queryKeys.every((key) => rule[key] === validQuery[key]);
+      });
+    }
+
     return rules;
   }
 
