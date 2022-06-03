@@ -19,3 +19,7 @@ code {
   height: calc(100vh - 72px);
   overflow-y: auto;
 }
+
+section.ant-layout {
+  background: #fff;
+}

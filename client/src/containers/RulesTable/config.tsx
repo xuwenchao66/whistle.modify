@@ -70,7 +70,7 @@ export const getColumns = ({
   {
     title: 'Action',
     dataIndex: 'operation',
-    width: 200,
+    width: 220,
     render: (_, row) => (
       <Action
         row={row}
