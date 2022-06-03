@@ -20,3 +20,14 @@ export const formRules: Record<
   pattern: [{ required: true }],
   description: [{ max: 50 }],
 };
+
+export const getActionsInfo = (isCreate: boolean) => {
+  const actionText = isCreate ? 'Create' : 'Update';
+
+  return {
+    actionText,
+    title: `${actionText} rule`,
+    successMessage: `${actionText} successfully`,
+    errorMessage: `${actionText} failed`,
+  };
+};
