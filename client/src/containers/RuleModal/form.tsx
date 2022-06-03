@@ -36,20 +36,10 @@ export const useRuleForm = ({
   // why use the ref for form? https://github.com/ant-design/ant-design/issues/21543
   const formRef = useRef(null);
 
-  useEffect(() => {
-    if (!formRef.current) return;
-    rule && form.setFieldsValue(rule);
-    return () => form.resetFields();
-  }, [rule, form]);
-
-  useMount(() => {
-    import('@/components/JSONEditor').then((component) => {
-      setJSONEditor(component.default);
-    });
-  });
+  const resetFields = useCallback(() => form.resetFields(), [form]);
 
   const [{ loading }, fetch] = useAsyncFn(
-    async (id, rule) => {
+    async (id, rule: Rule) => {
       try {
         if (isCreate) {
           const { data } = await createRule(rule);
@@ -57,6 +47,7 @@ export const useRuleForm = ({
             rules.unshift(data);
           });
         } else {
+          // rule.replacer.response.body = undefined;
           const { data } = await updateRule(id, rule);
           ruleContext.updateRule(data);
         }
@@ -79,6 +70,18 @@ export const useRuleForm = ({
         console.error(e);
       });
   }, [form, rule, fetch]);
+
+  useEffect(() => {
+    if (!formRef.current) return;
+    resetFields();
+    rule && form.setFieldsValue(rule);
+  }, [rule, form, resetFields]);
+
+  useMount(() => {
+    import('@/components/JSONEditor').then((component) => {
+      setJSONEditor(component.default);
+    });
+  });
 
   const ruleForm = useMemo(() => {
     if (!JSONEditor) return <Spin />;
@@ -105,5 +108,6 @@ export const useRuleForm = ({
     ruleForm,
     submit,
     loading,
+    resetFields,
   };
 };

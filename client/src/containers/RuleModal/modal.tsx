@@ -11,8 +11,14 @@ export interface RuleModalProps extends ComponentProps<typeof Modal> {
 
 export const RuleModal: FC<RuleModalProps> = memo(
   ({ rule, onSuccess, ...modalProps }) => {
-    const { ruleForm, submit, loading } = useRuleForm({ rule, onSuccess });
-    const { title, actionText } = getActionsInfo(!rule);
+    const { ruleForm, submit, loading, resetFields } = useRuleForm({
+      rule,
+      onSuccess,
+    });
+    const isCreate = !rule;
+    const { title, actionText } = getActionsInfo(isCreate);
+
+    isCreate && resetFields();
 
     return (
       <Modal
