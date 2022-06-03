@@ -1,5 +1,6 @@
 import ruleDB from './database/rule';
 import * as get from 'lodash/get';
+import * as isUndefined from 'lodash/isUndefined';
 
 export const getAllRules = () => {
   return ruleDB.findAll();
@@ -17,7 +18,7 @@ export const getMatchedReplacer = (req: Whistle.PluginServerRequest) => {
   const rules = getAllRules();
   const matchedRule = rules.find((rule) => checkIsMatch(rule.pattern, fullUrl));
   const enable = get(matchedRule, 'enable', false);
-  const responseBody = get(matchedRule, 'replacer.response.body', '');
+  const responseBody = get(matchedRule, 'replacer.response.body');
   const id = matchedRule?.id;
 
   return {
@@ -36,6 +37,7 @@ export default (
     'request',
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
       const { responseBody, enable, id } = getMatchedReplacer(req);
+      const needModifyBody = !isUndefined(responseBody);
       if (enable) {
         /**
          * 如果没删此头部，浏览器会根据 response 的 'accept-encoding' 进行解码，
@@ -50,9 +52,15 @@ export default (
           res.setHeader('whistle-modify', id);
           // 写入服务端返回的 code 以及 headers
           res.writeHead(svrRes.statusCode, svrRes.headers);
+          // 存储原始响应 body
+          let originBody;
           // 必须要声明该 data 钩子，才会读取 response 流，读取完才会触发 end 事件
-          svrRes.on('data', (data) => {});
-          svrRes.on('end', () => res.end(responseBody));
+          svrRes.on('data', (data) => {
+            originBody = originBody ? Buffer.concat([originBody, data]) : data;
+          });
+          svrRes.on('end', () =>
+            res.end(needModifyBody ? responseBody : originBody),
+          );
         });
 
         req.pipe(client);

@@ -46,6 +46,8 @@ export class RuleService {
   async findAll(query: Partial<RuleEntity>): Promise<RuleEntity[]> {
     const rules = [...ruleDB.findAll(query)];
 
+    rules.reverse();
+
     return rules;
   }
 
