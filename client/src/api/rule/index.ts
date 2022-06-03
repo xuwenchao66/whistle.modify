@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from 'axios';
 import { Rule } from '@server/src/models/rule/rule.type';
 
 export const createRule = async (data: Partial<Rule>) =>
-  await request.post<Rule>(`rules`, data);
+  await request.post<Rule>('/rules', data);
 
 export const deleteRule = async (id: Rule['id']) =>
   await request.delete(`rules/${id}`);

@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { useAsyncFn, useMount } from 'react-use';
 import { message } from 'antd';
 import { deleteRule, getRules, updateRule } from '@/api/rule';
 import { RuleContext } from '@/context';
 import { useLockFn } from 'ahooks';
 import RuleTable, { RuleTableProps } from './table';
 import { getColumns, ActionProps } from './config';
+import { useRequest } from 'ahooks';
 
 export const useRulesTable = ({
   onUpdate,
@@ -14,7 +14,7 @@ export const useRulesTable = ({
 }) => {
   const ruleContext = useContext(RuleContext);
 
-  const [{ loading }, get] = useAsyncFn(async () => {
+  const { loading, runAsync } = useRequest(async () => {
     const { data } = await getRules();
     ruleContext.setRules(data);
   });
@@ -46,8 +46,6 @@ export const useRulesTable = ({
     onUpdate,
   });
 
-  useMount(get);
-
   const table = (
     <RuleTable
       columns={columns as RuleTableProps['columns']}
@@ -58,6 +56,6 @@ export const useRulesTable = ({
 
   return {
     table,
-    get,
+    getRules: runAsync,
   };
 };

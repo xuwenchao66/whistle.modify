@@ -12,8 +12,9 @@ import { Form, Input, message, Spin } from 'antd';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { updateRule, createRule } from '@/api/rule';
 import { RuleContext } from '@/context';
-import { useAsyncFn, useMount } from 'react-use';
+import { useMount } from 'react-use';
 import { formStaticProps, formRules, getActionsInfo } from './config';
+import { useRequest } from 'ahooks';
 
 const responseBodyName = ['replacer', 'response', 'body'];
 
@@ -38,7 +39,7 @@ export const useRuleForm = ({
 
   const resetFields = useCallback(() => form.resetFields(), [form]);
 
-  const [{ loading }, fetch] = useAsyncFn(
+  const { loading, runAsync } = useRequest(
     async (id, rule: Rule) => {
       try {
         if (isCreate) {
@@ -47,7 +48,6 @@ export const useRuleForm = ({
             rules.unshift(data);
           });
         } else {
-          // rule.replacer.response.body = undefined;
           const { data } = await updateRule(id, rule);
           ruleContext.updateRule(data);
         }
@@ -57,14 +57,14 @@ export const useRuleForm = ({
         message.error(errorMessage);
       }
     },
-    [isCreate],
+    { manual: true },
   );
 
   const submit = useCallback(async () => {
     form
       .validateFields()
       .then(async (fields) => {
-        fetch(rule?.id, fields);
+        runAsync(rule?.id, fields);
       })
       .catch((e) => {
         console.error(e);
