@@ -8,7 +8,7 @@ import {
   FC,
   useCallback,
 } from 'react';
-import { Form, Input, message, Spin } from 'antd';
+import { Form, Input, message } from 'antd';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { updateRule, createRule } from '@/api/rule';
 import { RuleContext } from '@/context';
@@ -37,7 +37,10 @@ export const useRuleForm = ({
   // why use the ref for form? https://github.com/ant-design/ant-design/issues/21543
   const formRef = useRef(null);
 
-  const resetFields = useCallback(() => form.resetFields(), [form]);
+  const resetFields = useCallback(() => {
+    if (!formRef.current) return;
+    form.resetFields();
+  }, [form]);
 
   const { loading, runAsync } = useRequest(
     async (id, rule: Rule) => {
@@ -73,9 +76,8 @@ export const useRuleForm = ({
 
   useEffect(() => {
     if (!formRef.current) return;
-    resetFields();
     rule && form.setFieldsValue(rule);
-  }, [rule, form, resetFields]);
+  }, [rule, form]);
 
   useMount(() => {
     import('@/components/JSONEditor').then((component) => {
@@ -84,7 +86,6 @@ export const useRuleForm = ({
   });
 
   const ruleForm = useMemo(() => {
-    if (!JSONEditor) return <Spin />;
     return (
       <Form form={form} {...formStaticProps} ref={formRef}>
         <Form.Item label="Pattern" name="pattern" rules={formRules.pattern}>
@@ -97,9 +98,11 @@ export const useRuleForm = ({
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Response Body" name={responseBodyName}>
-          <JSONEditor />
-        </Form.Item>
+        {JSONEditor && (
+          <Form.Item label="Response Body" name={responseBodyName}>
+            <JSONEditor />
+          </Form.Item>
+        )}
       </Form>
     );
   }, [form, formRef, JSONEditor]);

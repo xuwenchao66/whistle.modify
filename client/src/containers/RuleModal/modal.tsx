@@ -1,4 +1,4 @@
-import { FC, ComponentProps, memo } from 'react';
+import { FC, ComponentProps, memo, useEffect } from 'react';
 import { Modal } from 'antd';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { modalStaticProps, getActionsInfo } from './config';
@@ -18,7 +18,9 @@ export const RuleModal: FC<RuleModalProps> = memo(
     const isCreate = !rule;
     const { title, actionText } = getActionsInfo(isCreate);
 
-    isCreate && resetFields();
+    useEffect(() => {
+      !modalProps.visible && resetFields();
+    }, [modalProps.visible]);
 
     return (
       <Modal
