@@ -5,6 +5,7 @@ import { DEFAULT_GROUP_ID } from '../common/constants';
 import { DB } from '../common/config';
 import { Rule } from '../models/rule/rule.type';
 import { Group } from '../models/group/group.type';
+import * as capitalize from 'lodash/capitalize';
 
 const rootPrefix = '/';
 
@@ -20,7 +21,7 @@ const defaultData: Data = {
   groups: [
     {
       id: DEFAULT_GROUP_ID,
-      name: DEFAULT_GROUP_ID,
+      name: capitalize(DEFAULT_GROUP_ID),
     },
   ],
 };
