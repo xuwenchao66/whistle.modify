@@ -23,3 +23,9 @@ code {
 section.ant-layout {
   background: #fff;
 }
+
+.ant-menu-root {
+  height: 100%;
+  height: calc(100vh - 72px);
+  overflow-y: auto;
+}
