@@ -36,7 +36,7 @@ export const Main = () => {
         <Spin spinning={loading}>
           <Sider theme="light">
             {menus}
-            <AddGroup />
+            {!loading && <AddGroup />}
           </Sider>
         </Spin>
         <Content className="content">{table}</Content>
