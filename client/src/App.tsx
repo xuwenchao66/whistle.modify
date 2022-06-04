@@ -1,5 +1,5 @@
 import { FC, useCallback } from 'react';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
 import { useRulesTable } from '@/containers/RulesTable';
@@ -11,7 +11,7 @@ import { Rule } from '@server/src/models/rule/rule.type';
 const { Content, Sider } = Layout;
 
 export const Main = () => {
-  const { menus, selectedGroupId } = useGroups();
+  const { menus, selectedGroupId, loading } = useGroups();
   const { modal, open } = useRuleModal();
   const { table, getRules } = useRulesTable({
     groupId: selectedGroupId,
@@ -26,7 +26,9 @@ export const Main = () => {
     <>
       <Header onCreate={openCreateModal} onReload={getRules} />
       <Layout>
-        <Sider theme="light">{menus}</Sider>
+        <Spin spinning={loading}>
+          <Sider theme="light">{menus}</Sider>
+        </Spin>
         <Content className="content">{table}</Content>
       </Layout>
       {modal}
