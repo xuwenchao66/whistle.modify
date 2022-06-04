@@ -4,9 +4,15 @@ import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
 import { useRulesTable } from '@/containers/RulesTable';
 import { useRuleModal } from '@/containers/RuleModal';
-import { RuleContext, RuleContextProps } from '@/context';
+import {
+  RuleContext,
+  RuleContextProps,
+  GroupContext,
+  GroupContextProps,
+} from '@/context';
 import { useImmer } from 'use-immer';
 import { Rule } from '@server/src/models/rule/rule.type';
+import { Group } from '@server/src/models/group/group.type';
 
 const { Content, Sider } = Layout;
 
@@ -38,6 +44,7 @@ export const Main = () => {
 
 export const App: FC = () => {
   const [rules, setRules] = useImmer<Rule[]>([]);
+  const [groups, setGroups] = useImmer<Group[]>([]);
 
   const ruleContext: RuleContextProps = {
     rules,
@@ -54,11 +61,28 @@ export const App: FC = () => {
       }),
   };
 
+  const groupContext: GroupContextProps = {
+    groups,
+    setGroups,
+    deleteGroup: (group) =>
+      setGroups((groups) => {
+        const deleteIndex = groups.findIndex((r) => r.id === group.id);
+        groups.splice(deleteIndex, 1);
+      }),
+    updateGroup: (group) =>
+      setGroups((groups) => {
+        const oldRuleIndex = groups.findIndex((r) => r.id === group.id);
+        groups[oldRuleIndex] = group;
+      }),
+  };
+
   return (
     <Layout>
-      <RuleContext.Provider value={ruleContext}>
-        <Main />
-      </RuleContext.Provider>
+      <GroupContext.Provider value={groupContext}>
+        <RuleContext.Provider value={ruleContext}>
+          <Main />
+        </RuleContext.Provider>
+      </GroupContext.Provider>
     </Layout>
   );
 };

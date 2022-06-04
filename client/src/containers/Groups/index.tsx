@@ -1,15 +1,16 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
 import { getGroups } from '@/api/group';
 import { useRequest } from 'ahooks';
 import { Group } from '@server/src/models/group/group.type';
 import { Menu } from 'antd';
+import { GroupContext } from '@/context';
 import { defaultGroup } from './config';
 
 export const useGroups = () => {
-  const [groups, setGroups] = useState<Group[]>([]);
+  const groupContext = useContext(GroupContext);
   const [selectedGroupId, setSelectedGroupId] = useState<string>();
   const handleSuccess = (groups: Group[]) => {
-    setGroups(groups);
+    groupContext.setGroups(groups);
     setSelectedGroupId(groups[0].id);
   };
 
@@ -19,7 +20,10 @@ export const useGroups = () => {
   });
 
   const menus = useMemo(() => {
-    const items = groups.map((group) => ({ key: group.id, label: group.name }));
+    const items = groupContext.groups.map((group) => ({
+      key: group.id,
+      label: group.name,
+    }));
     if (!items.length) return null;
     return (
       <Menu
@@ -28,7 +32,7 @@ export const useGroups = () => {
         items={items}
       />
     );
-  }, [groups, setSelectedGroupId]);
+  }, [groupContext.groups, setSelectedGroupId]);
 
   return {
     menus,
