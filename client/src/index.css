@@ -24,8 +24,12 @@ section.ant-layout {
   background: #fff;
 }
 
-.ant-menu-root {
-  height: 100%;
+.ant-layout-sider {
   height: calc(100vh - 72px);
+  border-right: 1px solid #f0f0f0;
   overflow-y: auto;
+}
+
+ul.ant-menu-root {
+  border-right: none;
 }

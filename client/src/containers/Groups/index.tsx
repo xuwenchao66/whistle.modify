@@ -5,6 +5,8 @@ import { Group } from '@server/src/models/group/group.type';
 import { Menu } from 'antd';
 import { GroupContext } from '@/context';
 import { defaultGroup } from './config';
+import GroupItem from './groupItem';
+import './index.css';
 
 export const useGroups = () => {
   const groupContext = useContext(GroupContext);
@@ -22,15 +24,17 @@ export const useGroups = () => {
   const menus = useMemo(() => {
     const items = groupContext.groups.map((group) => ({
       key: group.id,
-      label: group.name,
+      label: <GroupItem group={group} />,
     }));
     if (!items.length) return null;
     return (
-      <Menu
-        onClick={({ key }) => setSelectedGroupId(key)}
-        defaultSelectedKeys={[items[0].key]}
-        items={items}
-      />
+      <>
+        <Menu
+          onClick={({ key }) => setSelectedGroupId(key)}
+          defaultSelectedKeys={[items[0].key]}
+          items={items}
+        />
+      </>
     );
   }, [groupContext.groups, setSelectedGroupId]);
 

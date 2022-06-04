@@ -2,6 +2,7 @@ import { FC, useCallback } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
+import AddGroup from '@/containers/Groups/addGroup';
 import { useRulesTable } from '@/containers/RulesTable';
 import { useRuleModal } from '@/containers/RuleModal';
 import {
@@ -33,7 +34,10 @@ export const Main = () => {
       <Header onCreate={openCreateModal} onReload={getRules} />
       <Layout>
         <Spin spinning={loading}>
-          <Sider theme="light">{menus}</Sider>
+          <Sider theme="light">
+            {menus}
+            <AddGroup />
+          </Sider>
         </Spin>
         <Content className="content">{table}</Content>
       </Layout>

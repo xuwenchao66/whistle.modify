@@ -1,0 +1,7 @@
+span.add-group-input {
+  padding: 4px 16px;
+}
+
+.add-group-input.ant-input-affix-wrapper > input.ant-input {
+  padding: 0px 5px;
+}
