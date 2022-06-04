@@ -11,5 +11,6 @@ export const deleteRule = async (id: Rule['id']) =>
 export const updateRule = async (id: Rule['id'], data: Partial<Rule>) =>
   await request.put<Rule>(`rules/${id}`, data);
 
-export const getRules = async (options?: AxiosRequestConfig) =>
-  await request.get<Rule[]>('/rules', options);
+export const getRules = async (
+  options?: AxiosRequestConfig<{ params?: { groupId?: string } }>,
+) => await request.get<Rule[]>('/rules', options);

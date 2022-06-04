@@ -11,13 +11,16 @@ import { Rule } from '@server/src/models/rule/rule.type';
 const { Content, Sider } = Layout;
 
 export const Main = () => {
-  const { menus } = useGroups();
-  const { table, get } = useRulesTable({ onUpdate: (rule) => open(rule) });
+  const { menus, selectedGroupId } = useGroups();
+  const { table, getRules } = useRulesTable({
+    groupId: selectedGroupId,
+    onUpdate: (rule) => open(rule),
+  });
   const { modal, open } = useRuleModal();
 
   return (
     <>
-      <Header onCreate={open} onReload={get} />
+      <Header onCreate={open} onReload={getRules} />
       <Layout>
         <Sider theme="light">{menus}</Sider>
         <Content className="content">{table}</Content>

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { message } from 'antd';
 import { deleteRule, getRules, updateRule } from '@/api/rule';
 import { RuleContext } from '@/context';
@@ -9,15 +9,21 @@ import { useRequest } from 'ahooks';
 
 export const useRulesTable = ({
   onUpdate,
+  groupId,
 }: {
   onUpdate: ActionProps['onUpdate'];
+  groupId?: string;
 }) => {
   const ruleContext = useContext(RuleContext);
 
-  const { loading, runAsync } = useRequest(async () => {
-    const { data } = await getRules();
-    ruleContext.setRules(data);
+  const { loading, run } = useRequest(() => getRules({ params: { groupId } }), {
+    manual: true,
+    onSuccess: ({ data }) => ruleContext.setRules(data),
   });
+
+  useEffect(() => {
+    groupId && run();
+  }, [groupId]);
 
   const handleSwitch: ActionProps['onSwitch'] = useLockFn(
     async (enable, row) => {
@@ -56,6 +62,6 @@ export const useRulesTable = ({
 
   return {
     table,
-    getRules: runAsync,
+    getRules: run,
   };
 };

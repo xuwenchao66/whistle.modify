@@ -31,9 +31,6 @@ export class GroupService {
 
   async findAll(): Promise<GroupEntity[]> {
     const groups = [...groupDB.findAll()];
-
-    groups.reverse();
-
     return groups;
   }
 
