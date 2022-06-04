@@ -28,7 +28,7 @@ export const useGroups = () => {
         items={items}
       />
     );
-  }, [groups]);
+  }, [groups, setSelectedGroupId]);
 
   return {
     menus,

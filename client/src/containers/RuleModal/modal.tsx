@@ -5,7 +5,7 @@ import { modalStaticProps, getActionsInfo } from './config';
 import { useRuleForm } from './form';
 
 export interface RuleModalProps extends ComponentProps<typeof Modal> {
-  rule?: Rule;
+  rule: Partial<Rule>;
   onSuccess: () => void;
 }
 
@@ -15,7 +15,7 @@ export const RuleModal: FC<RuleModalProps> = memo(
       rule,
       onSuccess,
     });
-    const isCreate = !rule;
+    const isCreate = !rule.id;
     const { title, actionText } = getActionsInfo(isCreate);
 
     useEffect(() => {

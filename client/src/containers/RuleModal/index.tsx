@@ -4,10 +4,10 @@ import { Rule } from '@server/src/models/rule/rule.type';
 
 export const useRuleModal = () => {
   const [visible, setVisible] = useState(false);
-  const [rule, setRule] = useState<Rule>();
+  const [rule, setRule] = useState<Partial<Rule>>({});
 
   const open = useCallback(
-    (rule?: Rule) => {
+    (rule: Partial<Rule>) => {
       setVisible(true);
       setRule(rule);
     },

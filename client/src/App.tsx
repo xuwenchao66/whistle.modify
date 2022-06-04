@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { Layout } from 'antd';
 import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
@@ -12,15 +12,19 @@ const { Content, Sider } = Layout;
 
 export const Main = () => {
   const { menus, selectedGroupId } = useGroups();
+  const { modal, open } = useRuleModal();
   const { table, getRules } = useRulesTable({
     groupId: selectedGroupId,
     onUpdate: (rule) => open(rule),
   });
-  const { modal, open } = useRuleModal();
+  const openCreateModal = useCallback(
+    () => open({ groupId: selectedGroupId }),
+    [selectedGroupId, open],
+  );
 
   return (
     <>
-      <Header onCreate={open} onReload={getRules} />
+      <Header onCreate={openCreateModal} onReload={getRules} />
       <Layout>
         <Sider theme="light">{menus}</Sider>
         <Content className="content">{table}</Content>
