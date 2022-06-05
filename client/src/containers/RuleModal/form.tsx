@@ -10,7 +10,7 @@ import {
 import { Form, Input, message } from 'antd';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { updateRule, createRule } from '@/api/rule';
-import { RuleContext } from '@/context';
+import { RuleContext, GroupContext } from '@/context';
 import { useMount } from 'react-use';
 import { formStaticProps, formRules, getActionsInfo } from './config';
 import { useRequest } from 'ahooks';
@@ -21,13 +21,14 @@ export const useRuleForm = ({
   rule,
   onSuccess,
 }: {
-  rule: Partial<Rule>;
+  rule?: Partial<Rule>;
   onSuccess: () => void;
 }) => {
   const [form] = Form.useForm();
   const ruleContext = useContext(RuleContext);
+  const { selectedGroup } = useContext(GroupContext);
   const [JSONEditor, setJSONEditor] = useState<FC>();
-  const isCreate = !rule.id;
+  const isCreate = !rule?.id;
   const { successMessage, errorMessage } = getActionsInfo(isCreate);
   // why use the ref for form? https://github.com/ant-design/ant-design/issues/21543
   const formRef = useRef(null);
@@ -41,7 +42,7 @@ export const useRuleForm = ({
     async (id, fields: Partial<Rule>) => {
       if (isCreate) {
         const { data } = await createRule({
-          ...rule,
+          groupId: selectedGroup.id,
           ...fields,
         });
         ruleContext.setRules((rules) => {
@@ -68,7 +69,7 @@ export const useRuleForm = ({
     form
       .validateFields()
       .then(async (fields) => {
-        run(rule.id, fields);
+        run(rule?.id, fields);
       })
       .catch((e) => {
         console.error(e);

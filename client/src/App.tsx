@@ -19,16 +19,12 @@ import style from './index.module.less';
 const { Content, Sider } = Layout;
 
 export const Main = () => {
-  const { menus, selectedGroupId, loading } = useGroups();
+  const { menus, loading } = useGroups();
   const { modal, open } = useRuleModal();
   const { table, getRules } = useRulesTable({
-    groupId: selectedGroupId,
     onUpdate: (rule) => open(rule),
   });
-  const openCreateModal = useCallback(
-    () => open({ groupId: selectedGroupId }),
-    [selectedGroupId, open],
-  );
+  const openCreateModal = useCallback(() => open(), [open]);
 
   return (
     <>
@@ -50,6 +46,7 @@ export const Main = () => {
 export const App: FC = () => {
   const [rules, setRules] = useImmer<Rule[]>([]);
   const [groups, setGroups] = useImmer<Group[]>([]);
+  const [selectedGroup, setSelectedGroup] = useImmer<Group>({} as Group);
 
   const ruleContext: RuleContextProps = {
     rules,
@@ -69,6 +66,8 @@ export const App: FC = () => {
   const groupContext: GroupContextProps = {
     groups,
     setGroups,
+    selectedGroup,
+    setSelectedGroup: (group) => setSelectedGroup(group),
     deleteGroup: (group) =>
       setGroups((groups) => {
         const deleteIndex = groups.findIndex((r) => r.id === group.id);

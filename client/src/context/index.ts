@@ -17,6 +17,8 @@ export const RuleContext = createContext<RuleContextProps>(
 export interface GroupContextProps {
   groups: Group[];
   setGroups: Updater<Group[]>;
+  selectedGroup: Group;
+  setSelectedGroup: (group: Group) => void;
   deleteGroup: (group: Group) => void;
   updateGroup: (group: Group) => void;
 }

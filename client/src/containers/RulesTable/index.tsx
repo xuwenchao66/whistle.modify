@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { message } from 'antd';
 import { deleteRule, getRules, updateRule } from '@/api/rule';
-import { RuleContext } from '@/context';
+import { RuleContext, GroupContext } from '@/context';
 import { useLockFn } from 'ahooks';
 import RuleTable, { RuleTableProps } from './Table';
 import { getColumns, ActionProps } from './config';
@@ -9,12 +9,12 @@ import { useRequest } from 'ahooks';
 
 export const useRulesTable = ({
   onUpdate,
-  groupId,
 }: {
   onUpdate: ActionProps['onUpdate'];
-  groupId?: string;
 }) => {
   const ruleContext = useContext(RuleContext);
+  const { selectedGroup } = useContext(GroupContext);
+  const { id: groupId } = selectedGroup;
 
   const { loading, run } = useRequest(() => getRules({ params: { groupId } }), {
     manual: true,

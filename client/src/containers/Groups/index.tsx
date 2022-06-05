@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 import { getGroups } from '@/api/group';
 import { useRequest } from 'ahooks';
 import { Group } from '@server/src/models/group/group.type';
@@ -10,10 +10,10 @@ import style from './index.module.less';
 
 export const useGroups = () => {
   const groupContext = useContext(GroupContext);
-  const [selectedGroupId, setSelectedGroupId] = useState<string>();
+
   const handleSuccess = (groups: Group[]) => {
     groupContext.setGroups(groups);
-    setSelectedGroupId(groups[0].id);
+    groupContext.setSelectedGroup(groups[0]);
   };
 
   const { loading } = useRequest(getGroups, {
@@ -30,16 +30,19 @@ export const useGroups = () => {
     return (
       <Menu
         className={style.menusContainer}
-        onClick={({ key }) => setSelectedGroupId(key)}
+        onClick={({ key }) =>
+          groupContext.setSelectedGroup(
+            groupContext.groups.find((g) => g.id === key) as Group,
+          )
+        }
         defaultSelectedKeys={[items[0].key]}
         items={items}
       />
     );
-  }, [groupContext.groups, setSelectedGroupId]);
+  }, [groupContext.groups, groupContext.setSelectedGroup]);
 
   return {
     menus,
     loading,
-    selectedGroupId,
   };
 };

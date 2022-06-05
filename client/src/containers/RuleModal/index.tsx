@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
-import { RuleModal } from './Modal';
 import { Rule } from '@server/src/models/rule/rule.type';
+import { RuleModal } from './Modal';
 
 export const useRuleModal = () => {
   const [visible, setVisible] = useState(false);
-  const [rule, setRule] = useState<Partial<Rule>>({});
+  const [rule, setRule] = useState<Partial<Rule> | undefined>({});
 
   const open = useCallback(
-    (rule: Partial<Rule>) => {
+    (rule?: Partial<Rule>) => {
       setVisible(true);
       setRule(rule);
     },
