@@ -28,14 +28,12 @@ export const useGroups = () => {
     }));
     if (!items.length) return null;
     return (
-      <>
-        <Menu
-          className={style.menusContainer}
-          onClick={({ key }) => setSelectedGroupId(key)}
-          defaultSelectedKeys={[items[0].key]}
-          items={items}
-        />
-      </>
+      <Menu
+        className={style.menusContainer}
+        onClick={({ key }) => setSelectedGroupId(key)}
+        defaultSelectedKeys={[items[0].key]}
+        items={items}
+      />
     );
   }, [groupContext.groups, setSelectedGroupId]);
 
