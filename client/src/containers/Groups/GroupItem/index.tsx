@@ -1,4 +1,12 @@
-import { FC, memo, useContext, useState, useLayoutEffect, useRef } from 'react';
+import {
+  FC,
+  memo,
+  useContext,
+  useState,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+} from 'react';
 import { Group } from '@server/src/models/group/group.type';
 import { DEFAULT_GROUP } from '@/constants';
 import { Dropdown, Menu, message, MenuItemProps, Input } from 'antd';
@@ -96,10 +104,10 @@ const GroupItem: FC<GroupItemProps> = ({ group }) => {
     reset();
   };
 
-  const handleRename = () => {
+  const handleRename = useCallback(() => {
     setGroupName(group.name);
     setIsEditMode(true);
-  };
+  }, [setGroupName, setIsEditMode, group]);
 
   useLayoutEffect(() => {
     inputRef.current?.focus();
