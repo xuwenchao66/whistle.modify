@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "commit": "git-cz",
-    "publish:minor": "npm version minor && npm publish",
+    "publish:minor": "npm run build && npm version minor && npm publish",
     "prebuild": "rimraf dist",
     "type-check:client": "tsc --project client",
     "start:client": "vite",
