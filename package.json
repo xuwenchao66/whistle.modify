@@ -5,6 +5,7 @@
   "main": "./dist/server/index.js",
   "files": [
     "dist/*",
+    "images/*",
     "rules.txt"
   ],
   "scripts": {
