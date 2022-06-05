@@ -1,7 +1,7 @@
 import { useState, useContext, useCallback, useRef } from 'react';
 import { PlusOutlined, EnterOutlined } from '@ant-design/icons';
 import { Input, Spin, message } from 'antd';
-import { groupNameMaxLength } from '@/constants';
+import { GROUP_NAME_MAX_LENGTH } from '@/constants';
 import { useRequest } from 'ahooks';
 import { createGroup } from '@/api/group';
 import { GroupContext } from '@/context';
@@ -45,7 +45,7 @@ const AddGroup = () => {
           bordered={false}
           ref={inputRef}
           value={groupName}
-          maxLength={groupNameMaxLength}
+          maxLength={GROUP_NAME_MAX_LENGTH}
           onPressEnter={create}
           onChange={(e) => serGroupName(e.target.value)}
         />

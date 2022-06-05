@@ -4,7 +4,7 @@ import { useRequest } from 'ahooks';
 import { Group } from '@server/src/models/group/group.type';
 import { Menu } from 'antd';
 import { GroupContext } from '@/context';
-import { defaultGroup } from './config';
+import { DEFAULT_GROUP } from '@/constants';
 import GroupItem from './GroupItem';
 import style from './index.module.less';
 
@@ -18,7 +18,7 @@ export const useGroups = () => {
 
   const { loading } = useRequest(getGroups, {
     onSuccess: ({ data }) => handleSuccess(data),
-    onError: () => handleSuccess([defaultGroup]),
+    onError: () => handleSuccess([DEFAULT_GROUP]),
   });
 
   const menus = useMemo(() => {
