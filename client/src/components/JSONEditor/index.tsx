@@ -1,6 +1,7 @@
 import { useEffect, useRef, FC, memo } from 'react';
 import JSONEditor, { JSONEditorOptions } from 'jsoneditor';
 import 'jsoneditor/dist/jsoneditor.css';
+import style from './index.module.less';
 
 export interface CustomJSONEditorProps {
   value?: string;
@@ -11,10 +12,6 @@ const defaultOptions: JSONEditorOptions = {
   language: 'en',
   mode: 'code',
   enableTransform: false,
-};
-
-const containerStyle = {
-  height: '50vh',
 };
 
 const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
@@ -39,7 +36,7 @@ const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
     editorRef?.current?.updateText(value || '');
   }, [value]);
 
-  return <div style={containerStyle} ref={containerRef} />;
+  return <div className={style.container} ref={containerRef} />;
 };
 
 export default memo(CustomJSONEditor);

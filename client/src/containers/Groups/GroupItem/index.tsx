@@ -15,12 +15,19 @@ export interface GroupItemSuffixProps {
 
 const GroupItemSuffix: FC<GroupItemSuffixProps> = memo(({ group }) => {
   const groupContext = useContext(GroupContext);
+  const { selectedGroup, setSelectedGroup, groups } = groupContext;
+  const isSelected = selectedGroup.id === group.id;
 
   const { run: runDelete } = useRequest(() => deleteGroup(group.id), {
     manual: true,
     onSuccess: () => {
-      groupContext.deleteGroup(group);
       message.success('Delete successfully');
+      // 如果处于选中状态，则删除后，自动选中上一个 group
+      if (isSelected) {
+        const prevGroupIndex = groups.findIndex((g) => g.id === group.id) - 1;
+        setSelectedGroup(groups[prevGroupIndex]);
+      }
+      groupContext.deleteGroup(group);
     },
     onError: () => {
       message.error('Delete failed');

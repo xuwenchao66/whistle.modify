@@ -9,11 +9,12 @@ import GroupItem from './GroupItem';
 import style from './index.module.less';
 
 export const useGroups = () => {
-  const groupContext = useContext(GroupContext);
+  const { setGroups, setSelectedGroup, selectedGroup, groups } =
+    useContext(GroupContext);
 
   const handleSuccess = (groups: Group[]) => {
-    groupContext.setGroups(groups);
-    groupContext.setSelectedGroup(groups[0]);
+    setGroups(groups);
+    setSelectedGroup(groups[0]);
   };
 
   const { loading } = useRequest(getGroups, {
@@ -22,7 +23,7 @@ export const useGroups = () => {
   });
 
   const menus = useMemo(() => {
-    const items = groupContext.groups.map((group) => ({
+    const items = groups.map((group) => ({
       key: group.id,
       label: <GroupItem group={group} />,
     }));
@@ -31,15 +32,13 @@ export const useGroups = () => {
       <Menu
         className={style.menusContainer}
         onClick={({ key }) =>
-          groupContext.setSelectedGroup(
-            groupContext.groups.find((g) => g.id === key) as Group,
-          )
+          setSelectedGroup(groups.find((g) => g.id === key) as Group)
         }
-        defaultSelectedKeys={[items[0].key]}
+        selectedKeys={[selectedGroup.id]}
         items={items}
       />
     );
-  }, [groupContext.groups, groupContext.setSelectedGroup]);
+  }, [groups, setSelectedGroup]);
 
   return {
     menus,
