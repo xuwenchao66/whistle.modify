@@ -2,9 +2,9 @@
 
 一个用于修改响应的 [whistle](http://wproxy.org/whistle/) 插件。
 
-![index](/images/index.png)
+![index](images/index.png)
 
-![create](/images/create.png)
+![create](images/create.png)
 
 ## 开始使用
 
@@ -22,13 +22,13 @@ npm i -g whistle.modify
 
 ### 在 whistle 的插件管理页面中使用
 
-![entry](/images/entry.png)
+![entry](images/entry.png)
 
 ### 在独立的浏览器 `tab` 中打开使用
 
 在 `plugins` 管理页面打开之后，也可继续点击箭头指向的右侧按钮，在独立的 `tab` 中打开使用。
 
-![entry](/images/open.png)
+![entry](images/open.png)
 
 ## 功能
 
@@ -57,4 +57,4 @@ npm i -g whistle.modify
 
 当 `rules` 较多的时候，可通过创建不同的分组来对 `rules` 进行分类、管理。
 
-![add-group](/images/add-group.png)
+![add-group](images/add-group.png)
