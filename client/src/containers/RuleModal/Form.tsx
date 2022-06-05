@@ -38,6 +38,14 @@ export const useRuleForm = ({
     form.resetFields();
   }, [form]);
 
+  const setFields = useCallback(
+    (rule: Partial<Rule>) => {
+      if (!formRef.current) return;
+      form.setFieldsValue(rule);
+    },
+    [form],
+  );
+
   const { loading, run } = useRequest(
     async (id, fields: Partial<Rule>) => {
       if (isCreate) {
@@ -76,11 +84,6 @@ export const useRuleForm = ({
       });
   }, [form, rule, fetch]);
 
-  useEffect(() => {
-    if (!formRef.current) return;
-    rule && form.setFieldsValue(rule);
-  }, [rule, form]);
-
   useMount(() => {
     import('@/components/JSONEditor').then((component) => {
       setJSONEditor(component.default);
@@ -113,6 +116,7 @@ export const useRuleForm = ({
     ruleForm,
     submit,
     loading,
+    setFields,
     resetFields,
   };
 };
