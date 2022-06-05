@@ -35,8 +35,10 @@ const AddGroup = () => {
     <Spin spinning={loading}>
       <Item
         className={style.container}
-        prefix={<PlusOutlined onClick={() => inputRef.current.focus()} />}
-        suffix={<EnterOutlined onClick={create} />}
+        onPrefixClick={() => inputRef.current.focus()}
+        onSuffixClick={create}
+        prefix={<PlusOutlined />}
+        suffix={<EnterOutlined />}
       >
         <Input
           placeholder="add group"
