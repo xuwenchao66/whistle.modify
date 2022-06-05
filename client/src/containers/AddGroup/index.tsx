@@ -1,10 +1,12 @@
-import { useState, useContext, useCallback, useRef, RefObject } from 'react';
+import { useState, useContext, useCallback, useRef } from 'react';
 import { PlusOutlined, EnterOutlined } from '@ant-design/icons';
 import { Input, Spin, message } from 'antd';
 import { groupNameMaxLength } from '@/constants';
 import { useRequest } from 'ahooks';
 import { createGroup } from '@/api/group';
 import { GroupContext } from '@/context';
+import Item from '@/components/Item';
+import style from './index.module.less';
 
 const AddGroup = () => {
   const groupContext = useContext(GroupContext);
@@ -31,18 +33,21 @@ const AddGroup = () => {
 
   return (
     <Spin spinning={loading}>
-      <Input
-        className="add-group-input"
-        placeholder="add group"
-        bordered={false}
-        ref={inputRef}
-        value={groupName}
-        maxLength={groupNameMaxLength}
-        onPressEnter={create}
+      <Item
+        className={style.container}
         prefix={<PlusOutlined onClick={() => inputRef.current.focus()} />}
         suffix={<EnterOutlined onClick={create} />}
-        onChange={(e) => serGroupName(e.target.value)}
-      />
+      >
+        <Input
+          placeholder="add group"
+          bordered={false}
+          ref={inputRef}
+          value={groupName}
+          maxLength={groupNameMaxLength}
+          onPressEnter={create}
+          onChange={(e) => serGroupName(e.target.value)}
+        />
+      </Item>
     </Spin>
   );
 };

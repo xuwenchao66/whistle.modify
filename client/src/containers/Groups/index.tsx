@@ -6,7 +6,7 @@ import { Menu } from 'antd';
 import { GroupContext } from '@/context';
 import { defaultGroup } from './config';
 import GroupItem from './GroupItem';
-import './index.css';
+import style from './index.module.less';
 
 export const useGroups = () => {
   const groupContext = useContext(GroupContext);
@@ -30,6 +30,7 @@ export const useGroups = () => {
     return (
       <>
         <Menu
+          className={style.menusContainer}
           onClick={({ key }) => setSelectedGroupId(key)}
           defaultSelectedKeys={[items[0].key]}
           items={items}

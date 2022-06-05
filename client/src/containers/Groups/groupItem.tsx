@@ -1,10 +1,7 @@
 import { FC } from 'react';
 import { Group } from '@server/src/models/group/group.type';
-import { UnorderedListOutlined } from '@ant-design/icons';
-
-const iconStyle = {
-  marginRight: '9px',
-};
+import { UnorderedListOutlined, MoreOutlined } from '@ant-design/icons';
+import Item from '@/components/Item';
 
 export interface GroupItem {
   group: Group;
@@ -12,10 +9,9 @@ export interface GroupItem {
 
 const GroupItem: FC<GroupItem> = ({ group }) => {
   return (
-    <>
-      <UnorderedListOutlined style={iconStyle} />
+    <Item prefix={<UnorderedListOutlined />} suffix={<MoreOutlined />}>
       {group.name}
-    </>
+    </Item>
   );
 };
 

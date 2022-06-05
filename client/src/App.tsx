@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
-import AddGroup from '@/containers/Groups/AddGroup';
+import AddGroup from '@/containers/AddGroup';
 import { useRulesTable } from '@/containers/RulesTable';
 import { useRuleModal } from '@/containers/RuleModal';
 import {
@@ -14,6 +14,7 @@ import {
 import { useImmer } from 'use-immer';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { Group } from '@server/src/models/group/group.type';
+import style from './index.module.less';
 
 const { Content, Sider } = Layout;
 
@@ -32,14 +33,14 @@ export const Main = () => {
   return (
     <>
       <Header onCreate={openCreateModal} onReload={getRules} />
-      <Layout>
+      <Layout className={style.layout}>
         <Spin spinning={loading}>
-          <Sider theme="light">
+          <Sider className={style.sider} theme="light">
             {menus}
             {!loading && <AddGroup />}
           </Sider>
         </Spin>
-        <Content className="content">{table}</Content>
+        <Content className={style.content}>{table}</Content>
       </Layout>
       {modal}
     </>
@@ -81,7 +82,7 @@ export const App: FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout className={style.layout}>
       <GroupContext.Provider value={groupContext}>
         <RuleContext.Provider value={ruleContext}>
           <Main />

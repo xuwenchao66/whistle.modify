@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+
+.prefix {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.suffix {
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.content {
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
