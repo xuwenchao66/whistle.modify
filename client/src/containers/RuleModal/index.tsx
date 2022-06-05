@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { RuleModal } from './modal';
+import { RuleModal } from './Modal';
 import { Rule } from '@server/src/models/rule/rule.type';
 
 export const useRuleModal = () => {

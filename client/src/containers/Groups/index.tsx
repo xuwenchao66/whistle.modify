@@ -5,7 +5,7 @@ import { Group } from '@server/src/models/group/group.type';
 import { Menu } from 'antd';
 import { GroupContext } from '@/context';
 import { defaultGroup } from './config';
-import GroupItem from './groupItem';
+import GroupItem from './GroupItem';
 import './index.css';
 
 export const useGroups = () => {

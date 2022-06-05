@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import { Layout, Spin } from 'antd';
 import Header from '@/containers/Header';
 import { useGroups } from '@/containers/Groups';
-import AddGroup from '@/containers/Groups/addGroup';
+import AddGroup from '@/containers/Groups/AddGroup';
 import { useRulesTable } from '@/containers/RulesTable';
 import { useRuleModal } from '@/containers/RuleModal';
 import {

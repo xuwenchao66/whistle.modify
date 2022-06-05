@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { deleteRule, getRules, updateRule } from '@/api/rule';
 import { RuleContext } from '@/context';
 import { useLockFn } from 'ahooks';
-import RuleTable, { RuleTableProps } from './table';
+import RuleTable, { RuleTableProps } from './Table';
 import { getColumns, ActionProps } from './config';
 import { useRequest } from 'ahooks';
 
