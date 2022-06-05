@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "commit": "git-cz",
+    "publish": "npm version minor && npm publish",
     "prebuild": "rimraf dist",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "type-check:client": "tsc --project client",
     "start:client": "vite",
     "build": "npm-run-all build:client build:server",
