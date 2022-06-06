@@ -1,6 +1,6 @@
 {
   "name": "whistle.modify",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "license": "UNLICENSED",
   "main": "./dist/server/index.js",
   "files": [
