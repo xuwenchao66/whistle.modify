@@ -48,7 +48,7 @@
     "lodash": "^4.17.21",
     "nanoid": "^3.3.4",
     "node-json-db": "^1.5.0",
-    "pkg-dir": "^6.0.1",
+    "pkg-dir": "5.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-use": "^17.3.2",
