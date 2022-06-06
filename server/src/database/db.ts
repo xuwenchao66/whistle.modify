@@ -1,8 +1,8 @@
 import { JsonDB } from 'node-json-db';
+import { join } from 'path';
 import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
 import * as isEmpty from 'lodash/isEmpty';
 import { DEFAULT_GROUP_ID } from '../common/constants';
-import { DB } from '../common/config';
 import { Rule } from '../models/rule/rule.type';
 import { Group } from '../models/group/group.type';
 import * as capitalize from 'lodash/capitalize';
@@ -16,7 +16,7 @@ type Data = {
 };
 
 const defaultData: Data = {
-  version: DB.version,
+  version: 'v1',
   rules: [],
   groups: [
     {
@@ -26,8 +26,18 @@ const defaultData: Data = {
   ],
 };
 
-const db = new JsonDB(new Config(DB.fileName, true, false, '/'));
+let db: JsonDB;
 
-if (isEmpty(db.getData(rootPrefix))) db.push(rootPrefix, defaultData);
+export const initDB = (baseDir: string) => {
+  if (db) return;
+  db = new JsonDB(
+    new Config(join(baseDir, './whistle.modify.json'), true, false, '/'),
+  );
+  if (isEmpty(db.getData(rootPrefix))) db.push(rootPrefix, defaultData);
+};
 
-export default db;
+export class Base {
+  get db() {
+    return db;
+  }
+}

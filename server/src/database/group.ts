@@ -1,19 +1,19 @@
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
-import db from './db';
+import { Base } from './db';
 import { GroupEntity } from '../models/group/group.entity';
 import { DEFAULT_GROUP_ID } from '../common/constants';
 
 const prefix = '/groups';
 
-export class GroupDB {
+export class GroupDB extends Base {
   findIndexById(id: string): number {
-    const index = db.getIndex(prefix, id);
+    const index = this.db.getIndex(prefix, id);
     if (index === -1) throw new NotFoundException('Group Not Found');
     return index;
   }
 
   create(group: GroupEntity) {
-    db.push(`${prefix}[]`, group);
+    this.db.push(`${prefix}[]`, group);
   }
 
   delete(id: string) {
@@ -21,24 +21,24 @@ export class GroupDB {
       throw new ForbiddenException('Default group cannot be deleted');
 
     const index = this.findIndexById(id);
-    db.delete(`${prefix}[${index}]`);
+    this.db.delete(`${prefix}[${index}]`);
   }
 
   update(id: string, group: Partial<GroupEntity>) {
     const index = this.findIndexById(id);
-    db.push(`${prefix}[${index}]`, group, false);
+    this.db.push(`${prefix}[${index}]`, group, false);
 
     return this.findOne(id);
   }
 
   findAll() {
-    const groups = db.getObject<GroupEntity[]>(prefix);
+    const groups = this.db.getObject<GroupEntity[]>(prefix);
     return groups;
   }
 
   findOne(id: string): GroupEntity {
     const index = this.findIndexById(id);
-    return db.getObject<GroupEntity>(`${prefix}[${index}]`);
+    return this.db.getObject<GroupEntity>(`${prefix}[${index}]`);
   }
 }
 

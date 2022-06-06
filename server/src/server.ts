@@ -1,10 +1,7 @@
 import ruleDB from './database/rule';
 import * as get from 'lodash/get';
 import * as isUndefined from 'lodash/isUndefined';
-
-export const getAllRules = () => {
-  return ruleDB.findAll();
-};
+import { initDB } from './database/db';
 
 export const checkIsMatch = (pattern: string, url: string) => {
   if (new RegExp(pattern).test(url)) return true;
@@ -15,7 +12,7 @@ export const checkIsMatch = (pattern: string, url: string) => {
 export const getMatchedReplacer = (req: Whistle.PluginServerRequest) => {
   const { originalReq } = req;
   const { fullUrl } = originalReq;
-  const rules = getAllRules();
+  const rules = ruleDB.findAll();
   const matchedRule = rules.find((rule) => checkIsMatch(rule.pattern, fullUrl));
   const enable = get(matchedRule, 'enable', false);
   const responseBody = get(matchedRule, 'replacer.response.body');
@@ -32,6 +29,7 @@ export default (
   server: Whistle.PluginServer,
   options: Whistle.PluginOptions,
 ) => {
+  initDB(options.config.baseDir);
   // handle http request
   server.on(
     'request',
