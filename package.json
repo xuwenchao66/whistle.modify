@@ -5,9 +5,12 @@
   "main": "./dist/server/index.js",
   "files": [
     "dist/*",
-    "images/*",
     "rules.txt"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuwenchao66/whistle.modify.git"
+  },
   "scripts": {
     "commit": "git-cz",
     "publish:minor": "npm run build && npm version minor && npm publish",
