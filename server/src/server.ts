@@ -9,18 +9,23 @@ export const checkIsMatch = (pattern: string, url: string) => {
   return false;
 };
 
-export const getMatchedReplacer = (req: Whistle.PluginServerRequest) => {
+export const getReplacer = (req: Whistle.PluginServerRequest) => {
   const { originalReq } = req;
   const { fullUrl } = originalReq;
   const rules = ruleDB.findAll();
-  const matchedRule = rules.find((rule) => checkIsMatch(rule.pattern, fullUrl));
-  const enable = get(matchedRule, 'enable', false);
-  const responseBody = get(matchedRule, 'replacer.response.body');
-  const id = matchedRule?.id;
+  // 查找所有匹配的规则
+  const matchedRules = rules.filter((rule) =>
+    checkIsMatch(rule.pattern, fullUrl),
+  );
+  // 尝试获取第一个匹配且启用的规则
+  const firstEnableRule = matchedRules.find((rule) => rule.enable);
+  if (!firstEnableRule) return null;
+
+  const responseBody = get(firstEnableRule, 'replacer.response.body');
+  const id = firstEnableRule.id;
 
   return {
     id,
-    enable,
     responseBody,
   };
 };
@@ -34,9 +39,11 @@ export default (
   server.on(
     'request',
     (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
-      const { responseBody, enable, id } = getMatchedReplacer(req);
-      const needModifyBody = !isUndefined(responseBody);
-      if (enable) {
+      const replacer = getReplacer(req);
+
+      if (replacer) {
+        const { responseBody, id } = replacer;
+        const needModifyBody = !isUndefined(responseBody);
         /**
          * 如果没删此头部，浏览器会根据 response 的 'accept-encoding' 进行解码，
          * 所以也需要对修改的响应体进行编码，这样浏览器才能正确解析。
