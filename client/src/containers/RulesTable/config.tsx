@@ -7,49 +7,40 @@ const { Link } = Typography;
 
 export type ActionProps = {
   row: Rule;
-  onSwitch: (enable: boolean, row: Rule) => void;
   onDelete: (row: Rule) => void;
   onUpdate: (row: Rule) => void;
 };
 
-const Action: FC<ActionProps> = memo(
-  ({ row, onSwitch, onDelete, onUpdate }) => {
-    const { enable } = row;
-
-    return (
-      <Space size="large">
-        <Switch
-          checked={enable}
-          size="small"
-          onChange={(enable) => onSwitch(enable, row)}
-        />
-        <Button type="primary" size="small" onClick={() => onUpdate(row)}>
-          Update
+const Action: FC<ActionProps> = memo(({ row, onDelete, onUpdate }) => {
+  return (
+    <Space size="middle">
+      <Button type="primary" size="small" onClick={() => onUpdate(row)}>
+        Update
+      </Button>
+      <Popconfirm
+        title="Are you sure to delete this rule?"
+        onConfirm={() => onDelete(row)}
+        okText="Yes"
+        cancelText="No"
+        placement="topRight"
+      >
+        <Button type="primary" danger size="small">
+          Delete
         </Button>
-        <Popconfirm
-          title="Are you sure to delete this rule?"
-          onConfirm={() => onDelete(row)}
-          okText="Yes"
-          cancelText="No"
-          placement="topRight"
-        >
-          <Button type="primary" danger size="small">
-            Delete
-          </Button>
-        </Popconfirm>
-      </Space>
-    );
-  },
-);
+      </Popconfirm>
+    </Space>
+  );
+});
+
+type GetColumnsProps = {
+  onSwitch: (enable: boolean, row: Rule) => void;
+} & Pick<ActionProps, 'onDelete' | 'onUpdate'>;
 
 export const getColumns = ({
   onSwitch,
   onDelete,
   onUpdate,
-}: Pick<
-  ActionProps,
-  'onDelete' | 'onSwitch' | 'onUpdate'
->): ColumnType<Rule>[] => [
+}: GetColumnsProps): ColumnType<Rule>[] => [
   {
     title: 'Pattern',
     dataIndex: 'pattern',
@@ -68,16 +59,25 @@ export const getColumns = ({
     render: (_, row) => row.replacer?.response?.body,
   },
   {
+    title: 'Enable',
+    dataIndex: 'enable',
+    ellipsis: true,
+    width: 78,
+    align: 'center',
+    render: (enable, row) => (
+      <Switch
+        checked={enable}
+        size="small"
+        onChange={(enable) => onSwitch(enable, row)}
+      />
+    ),
+  },
+  {
     title: 'Action',
     dataIndex: 'operation',
-    width: 220,
+    width: 170,
     render: (_, row) => (
-      <Action
-        row={row}
-        onSwitch={onSwitch}
-        onDelete={onDelete}
-        onUpdate={onUpdate}
-      />
+      <Action row={row} onDelete={onDelete} onUpdate={onUpdate} />
     ),
   },
 ];
