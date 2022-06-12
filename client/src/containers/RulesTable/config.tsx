@@ -62,8 +62,13 @@ export const getColumns = ({
     title: 'Enable',
     dataIndex: 'enable',
     ellipsis: true,
-    width: 78,
+    width: 93,
     align: 'center',
+    filters: [
+      { text: 'Enabled', value: true },
+      { text: 'Disabled', value: false },
+    ],
+    onFilter: (value, record) => record.enable === value,
     render: (enable, row) => (
       <Switch
         checked={enable}
