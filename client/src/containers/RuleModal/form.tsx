@@ -1,12 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useContext,
-  useRef,
-  useState,
-  FC,
-  useCallback,
-} from 'react';
+import { useMemo, useContext, useRef, useState, FC, useCallback } from 'react';
 import { Form, Input, message } from 'antd';
 import { Rule } from '@server/src/models/rule/rule.type';
 import { updateRule, createRule } from '@/api/rule';
@@ -16,6 +8,8 @@ import { formStaticProps, formRules, getActionsInfo } from './config';
 import { useRequest } from 'ahooks';
 
 const responseBodyName = ['replacer', 'response', 'body'];
+
+const patternNormalize = (val: string) => val.trim();
 
 export const useRuleForm = ({
   rule,
@@ -93,7 +87,12 @@ export const useRuleForm = ({
   const ruleForm = useMemo(() => {
     return (
       <Form form={form} {...formStaticProps} ref={formRef}>
-        <Form.Item label="Pattern" name="pattern" rules={formRules.pattern}>
+        <Form.Item
+          label="Pattern"
+          name="pattern"
+          rules={formRules.pattern}
+          normalize={patternNormalize}
+        >
           <Input />
         </Form.Item>
         <Form.Item
