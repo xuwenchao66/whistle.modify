@@ -1,42 +1,91 @@
-import { useEffect, useRef, FC, memo } from 'react';
-import JSONEditor, { JSONEditorOptions } from 'jsoneditor';
-import 'jsoneditor/dist/jsoneditor.css';
+import { useEffect, useRef, FC, memo, useState } from 'react';
+import { JSONEditor } from 'svelte-jsoneditor/dist/jsoneditor.js';
+import {
+  MenuButtonItem,
+  TextContent,
+  FontAwesomeIcon,
+} from 'svelte-jsoneditor';
+import {
+  faUpRightAndDownLeftFromCenter,
+  faDownLeftAndUpRightToCenter,
+} from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
 import style from './index.module.less';
 
 export interface CustomJSONEditorProps {
   value?: string;
-  onChange?: () => void;
+  onChange: (val: string) => void;
 }
 
-const defaultOptions: JSONEditorOptions = {
-  language: 'en',
-  mode: 'code',
-  enableTransform: false,
+export type Mode = 'tree' | 'code';
+
+const MODE: Record<Mode, Mode> = {
+  code: 'code',
+  tree: 'tree',
 };
 
-const CustomJSONEditor: FC<CustomJSONEditorProps> = ({ value, onChange }) => {
+const CustomJSONEditor: FC<CustomJSONEditorProps> = ({
+  value = '',
+  onChange,
+}) => {
   const containerRef = useRef(null);
-  const editorRef = useRef<JSONEditor | null>(null);
+  const editorRef = useRef<any>(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   useEffect(() => {
-    const options: JSONEditorOptions = {
-      ...defaultOptions,
-      onChangeText: onChange,
+    // @ts-ignore
+    editorRef.current = new JSONEditor({
+      target: containerRef.current,
+      props: {
+        mode: MODE.code,
+        content: { text: value },
+        onChange: (updatedContent: TextContent) => {
+          onChange(updatedContent.text);
+        },
+        onRenderMenu: (mode: Mode, items: MenuButtonItem[]) => {
+          // remove mode switcher
+          items.splice(0, 3);
+          // remove sort & filter
+          items.splice(3, 2);
+          items.push({
+            icon: (isFullScreen
+              ? faDownLeftAndUpRightToCenter
+              : faUpRightAndDownLeftFromCenter) as FontAwesomeIcon,
+            onClick: () => setIsFullScreen(!isFullScreen),
+          });
+          return items;
+        },
+      },
+    });
+
+    const onkeydown = (e: KeyboardEvent) => {
+      e.key === 'Escape' && setIsFullScreen(false);
     };
 
-    if (containerRef.current)
-      editorRef.current = new JSONEditor(containerRef.current, options, value);
+    isFullScreen && document.addEventListener('keydown', onkeydown, true);
 
     return () => {
-      editorRef.current && editorRef.current.destroy();
+      isFullScreen && document.removeEventListener('keydown', onkeydown, true);
+
+      if (editorRef.current) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+      }
     };
-  }, [containerRef]);
+  }, [isFullScreen]);
 
   useEffect(() => {
-    editorRef?.current?.updateText(value || '');
+    editorRef.current.update({ text: value });
   }, [value]);
 
-  return <div className={style.container} ref={containerRef} />;
+  return (
+    <div
+      className={classnames(style.container, {
+        [style.fullScreen]: isFullScreen,
+      })}
+      ref={containerRef}
+    />
+  );
 };
 
 export default memo(CustomJSONEditor);
