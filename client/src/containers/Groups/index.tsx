@@ -7,7 +7,7 @@ import { GroupContext } from '@/context';
 import { DEFAULT_GROUP } from '@/constants';
 import GroupItem from './GroupItem';
 import style from './index.module.less';
-import { getLastSelectedGroup, setLastSelectedGroupId } from './functions';
+import { getLastSelectedGroup } from '@/functions/group';
 
 export const useGroups = () => {
   const { setGroups, setSelectedGroup, selectedGroup, groups } =
@@ -32,7 +32,6 @@ export const useGroups = () => {
     if (!items.length) return null;
 
     const onItemClick: MenuItemProps['onClick'] = ({ key }) => {
-      setLastSelectedGroupId(key);
       setSelectedGroup(groups.find((g) => g.id === key) as Group);
     };
 

@@ -14,7 +14,7 @@ import style from './index.module.less';
 
 export interface CustomJSONEditorProps {
   value?: string;
-  onChange: (val: string) => void;
+  onChange?: (val: string) => void;
 }
 
 export type Mode = 'tree' | 'code';
@@ -39,9 +39,8 @@ const CustomJSONEditor: FC<CustomJSONEditorProps> = ({
       props: {
         mode: MODE.code,
         content: { text: value },
-        onChange: (updatedContent: TextContent) => {
-          onChange(updatedContent.text);
-        },
+        onChange: (updatedContent: TextContent) =>
+          onChange && onChange(updatedContent.text),
         onRenderMenu: (mode: Mode, items: MenuButtonItem[]) => {
           // remove mode switcher
           items.splice(0, 3);
