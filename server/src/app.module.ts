@@ -12,6 +12,14 @@ const staticRootPath = join(__dirname, '../client');
     ServeStaticModule.forRoot({
       rootPath: staticRootPath,
       exclude: [`${API_PREFIX}*`],
+      serveStaticOptions: {
+        maxAge: '30 days',
+        setHeaders: (res, path) => {
+          if (path.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
+      },
     }),
     RuleModule,
     GroupModule,
