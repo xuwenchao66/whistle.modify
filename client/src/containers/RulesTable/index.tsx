@@ -1,17 +1,19 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { message } from 'antd';
+import { useLockFn, useRequest } from 'ahooks';
+import classnames from 'classnames';
 import { deleteRule, getRules, updateRule } from '@/api/rule';
 import { RuleContext, GroupContext } from '@/context';
-import { useLockFn } from 'ahooks';
+import { Rule } from '@server/src/models/rule/rule.type';
 import RuleTable, { RuleTableProps } from './Table';
-import { getColumns, ActionProps } from './config';
-import { useRequest } from 'ahooks';
+import { getColumns, GetColumnsProps } from './config';
 
 export const useRulesTable = ({
   onUpdate,
 }: {
-  onUpdate: ActionProps['onUpdate'];
+  onUpdate: GetColumnsProps['onUpdate'];
 }) => {
+  const [selectedRule, setSelectedRule] = useState<Rule>({} as Rule);
   const ruleContext = useContext(RuleContext);
   const { selectedGroup } = useContext(GroupContext);
   const { id: groupId } = selectedGroup;
@@ -25,7 +27,7 @@ export const useRulesTable = ({
     groupId && run();
   }, [groupId]);
 
-  const handleSwitch: ActionProps['onSwitch'] = useLockFn(
+  const handleSwitch: GetColumnsProps['onSwitch'] = useLockFn(
     async (enable, row) => {
       try {
         const { data } = await updateRule(row.id, { enable });
@@ -36,7 +38,7 @@ export const useRulesTable = ({
     },
   );
 
-  const handleDelete: ActionProps['onDelete'] = useLockFn(async (row) => {
+  const handleDelete: GetColumnsProps['onDelete'] = useLockFn(async (row) => {
     try {
       await deleteRule(row.id);
       ruleContext.deleteRule(row);
@@ -57,6 +59,14 @@ export const useRulesTable = ({
       columns={columns as RuleTableProps['columns']}
       dataSource={ruleContext.rules}
       loading={loading}
+      onRow={(record) => ({
+        onClick: () => setSelectedRule(record as Rule),
+      })}
+      rowClassName={(record) =>
+        classnames({
+          'ant-table-row-selected': (record as Rule).id === selectedRule.id,
+        })
+      }
     />
   );
 

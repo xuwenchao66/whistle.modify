@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import style from './index.module.less';
 import classnames from 'classnames';
 
-export interface GroupItem {
+export interface Item {
   children: ReactNode;
   className?: string;
   prefix?: ReactNode;
@@ -11,7 +11,7 @@ export interface GroupItem {
   onSuffixClick?: () => any;
 }
 
-const GroupItem: FC<GroupItem> = ({
+const Item: FC<Item> = ({
   children,
   prefix,
   suffix,
@@ -46,4 +46,4 @@ const GroupItem: FC<GroupItem> = ({
   );
 };
 
-export default GroupItem;
+export default Item;

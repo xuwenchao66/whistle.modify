@@ -32,7 +32,7 @@ const Action: FC<ActionProps> = memo(({ row, onDelete, onUpdate }) => {
   );
 });
 
-type GetColumnsProps = {
+export type GetColumnsProps = {
   onSwitch: (enable: boolean, row: Rule) => void;
 } & Pick<ActionProps, 'onDelete' | 'onUpdate'>;
 
