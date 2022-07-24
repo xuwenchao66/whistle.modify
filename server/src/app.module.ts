@@ -16,7 +16,7 @@ const staticRootPath = join(__dirname, '../client');
         maxAge: '30 days',
         setHeaders: (res, path) => {
           if (path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache');
+            res.setHeader('Cache-Control', 'max-age=0');
           }
         },
       },
