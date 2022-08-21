@@ -5,7 +5,7 @@ export default async (
   server: Whistle.PluginServer,
   options: Whistle.PluginOptions,
 ) => {
-  initDB(options.config.baseDir);
+  await initDB(options.config.baseDir);
   const instance = await asyncInstance;
   server.on('request', instance);
 };

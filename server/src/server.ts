@@ -30,11 +30,11 @@ export const getReplacer = async (req: Whistle.PluginServerRequest) => {
   };
 };
 
-export default (
+export default async (
   server: Whistle.PluginServer,
   options: Whistle.PluginOptions,
 ) => {
-  initDB(options.config.baseDir);
+  await initDB(options.config.baseDir);
   // handle http request
   server.on(
     'request',

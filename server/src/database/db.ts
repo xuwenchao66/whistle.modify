@@ -28,12 +28,14 @@ const defaultData: Data = {
 
 let db: JsonDB;
 
-export const initDB = (baseDir: string) => {
+export const initDB = async (baseDir: string) => {
   if (db) return;
   db = new JsonDB(
     new Config(join(baseDir, './whistle.modify.json'), true, false, '/'),
   );
-  if (isEmpty(db.getData(rootPrefix))) db.push(rootPrefix, defaultData);
+
+  const rootData = await db.getData(rootPrefix);
+  if (isEmpty(rootData)) db.push(rootPrefix, defaultData);
 };
 
 export class Base {
