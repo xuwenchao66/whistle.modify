@@ -25,3 +25,5 @@
    ```
 
 3. 在项目根目录中执行 `lack watch`，启用监听插件代码更新自动重启。
+
+4. `npm run start:server:debug` 启用监听 `ts` 代码编译成 `js` 。
