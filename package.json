@@ -47,7 +47,7 @@
     "immer": "^9.0.12",
     "lodash": "^4.17.21",
     "nanoid": "^3.3.4",
-    "node-json-db": "^1.5.0",
+    "node-json-db": "^2.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-use": "^17.3.2",

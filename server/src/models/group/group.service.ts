@@ -13,15 +13,15 @@ export class GroupService {
     group.id = await getUUID();
     group.name = groupDto.name;
 
-    groupDB.create(group);
+    await groupDB.create(group);
 
     return group;
   }
 
   async delete(id: string) {
-    groupDB.delete(id);
+    await groupDB.delete(id);
     // 删除该 group 下的所有 rule
-    const rules = ruleDB.findAll({ groupId: id });
+    const rules = await ruleDB.findAll({ groupId: id });
     rules.forEach((rule) => ruleDB.delete(rule.id));
   }
 
@@ -30,7 +30,7 @@ export class GroupService {
   }
 
   async findAll(): Promise<GroupEntity[]> {
-    const groups = [...groupDB.findAll()];
+    const groups = [...(await groupDB.findAll())];
     return groups;
   }
 

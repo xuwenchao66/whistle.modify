@@ -9,10 +9,10 @@ export const checkIsMatch = (pattern: string, url: string) => {
   return false;
 };
 
-export const getReplacer = (req: Whistle.PluginServerRequest) => {
+export const getReplacer = async (req: Whistle.PluginServerRequest) => {
   const { originalReq } = req;
   const { fullUrl } = originalReq;
-  const rules = ruleDB.findAll();
+  const rules = await ruleDB.findAll();
   // 查找所有匹配的规则
   const matchedRules = rules.filter((rule) =>
     checkIsMatch(rule.pattern, fullUrl),
@@ -38,8 +38,11 @@ export default (
   // handle http request
   server.on(
     'request',
-    (req: Whistle.PluginServerRequest, res: Whistle.PluginServerResponse) => {
-      const replacer = getReplacer(req);
+    async (
+      req: Whistle.PluginServerRequest,
+      res: Whistle.PluginServerResponse,
+    ) => {
+      const replacer = await getReplacer(req);
 
       if (replacer) {
         const { responseBody, id } = replacer;

@@ -35,7 +35,7 @@ specifiers:
   less: ^4.1.2
   lodash: ^4.17.21
   nanoid: ^3.3.4
-  node-json-db: ^1.5.0
+  node-json-db: ^2.1.0
   npm-run-all: ^4.1.5
   prettier: ^2.3.2
   react: ^18.0.0
@@ -71,7 +71,7 @@ dependencies:
   immer: 9.0.14
   lodash: 4.17.21
   nanoid: 3.3.4
-  node-json-db: 1.5.0
+  node-json-db: 2.1.0
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   react-use: 17.4.0_react-dom@18.1.0+react@18.1.0
@@ -2022,6 +2022,11 @@ packages:
 
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  /atomically/1.7.0:
+    resolution: {integrity: sha512-Xcz9l0z7y9yQ9rdDaxlmaI4uJHf/T8g9hOEzJcsEqX2SjCj4J20uK7+ldkDHMbpJDK76wF7xEIgxc/vSlsfw5w==}
+    engines: {node: '>=10.12.0'}
+    dev: false
 
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
@@ -4908,12 +4913,6 @@ packages:
       minimist: 1.2.6
     dev: false
 
-  /mkdirp/1.0.4:
-    resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: false
-
   /moment/2.29.3:
     resolution: {integrity: sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==}
     dev: false
@@ -5025,10 +5024,10 @@ packages:
     resolution: {integrity: sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=}
     dev: true
 
-  /node-json-db/1.5.0:
-    resolution: {integrity: sha512-nDD+NgmKE5gxhC9d/MNUmm4NjzKnPRN7uIG6Z167+SVfK2vEVTiKw9ca05/6PLxQAUFP3VOL86K5nPsapFP94w==}
+  /node-json-db/2.1.0:
+    resolution: {integrity: sha512-Fc6eLFknWtFdgp3TsNX6xVeHBpIXm4GdnHEHYkAyOlDjrWrLlHCUqhN8VyB4fWOPstPK7WOaFN7UQd4W+2x9Kw==}
     dependencies:
-      mkdirp: 1.0.4
+      atomically: 1.7.0
     dev: false
 
   /node-releases/2.0.4:

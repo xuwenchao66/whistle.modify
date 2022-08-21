@@ -18,7 +18,7 @@ export class RuleService {
 
     // 如果存在 groupId，尝试找到对应的 group 确保 group 存在，否则使用默认的 groupId
     if (groupId) {
-      groupDB.findOne(groupId);
+      await groupDB.findOne(groupId);
       rule.groupId = groupId;
     } else {
       rule.groupId = DEFAULT_GROUP_ID;
@@ -30,7 +30,7 @@ export class RuleService {
     rule.replacer = replacer;
     rule.description = description;
 
-    ruleDB.create(rule);
+    await ruleDB.create(rule);
 
     return rule;
   }
@@ -44,7 +44,7 @@ export class RuleService {
   }
 
   async findAll(query: Partial<RuleEntity>): Promise<RuleEntity[]> {
-    const rules = [...ruleDB.findAll(query)];
+    const rules = [...(await ruleDB.findAll(query))];
 
     rules.reverse();
 

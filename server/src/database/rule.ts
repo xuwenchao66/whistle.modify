@@ -8,32 +8,32 @@ import { RuleEntity } from '../models/rule/rule.entity';
 const prefix = '/rules';
 
 export class RuleDB extends Base {
-  findIndexById(id: string): number {
-    const index = this.db.getIndex(prefix, id);
+  async findIndexById(id: string): Promise<number> {
+    const index = await this.db.getIndex(prefix, id);
     if (index === -1) throw new NotFoundException('Rule Not Found');
     return index;
   }
 
-  create(rule: RuleEntity) {
-    this.db.push(`${prefix}[]`, rule);
+  async create(rule: RuleEntity) {
+    return this.db.push(`${prefix}[]`, rule);
   }
 
-  delete(id: string) {
-    const index = this.findIndexById(id);
-    this.db.delete(`${prefix}[${index}]`);
+  async delete(id: string) {
+    const index = await this.findIndexById(id);
+    return this.db.delete(`${prefix}[${index}]`);
   }
 
-  update(id: string, rule: Partial<RuleEntity>) {
-    const index = this.findIndexById(id);
-    this.db.push(`${prefix}[${index}]`, rule, false);
+  async update(id: string, rule: Partial<RuleEntity>) {
+    const index = await this.findIndexById(id);
+    await this.db.push(`${prefix}[${index}]`, rule, false);
 
     return this.findOne(id);
   }
 
-  findAll(query?: Partial<RuleEntity>) {
+  async findAll(query?: Partial<RuleEntity>) {
     const validQuery = omitBy(query, isUndefined);
 
-    let rules = this.db.getObject<RuleEntity[]>(prefix);
+    let rules = await this.db.getObject<RuleEntity[]>(prefix);
 
     if (!isEmpty(validQuery)) {
       rules = rules.filter((rule) => {
@@ -45,8 +45,8 @@ export class RuleDB extends Base {
     return rules;
   }
 
-  findOne(id: string): RuleEntity {
-    const index = this.findIndexById(id);
+  async findOne(id: string): Promise<RuleEntity> {
+    const index = await this.findIndexById(id);
     return this.db.getObject<RuleEntity>(`${prefix}[${index}]`);
   }
 }
